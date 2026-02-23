@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
-type TabKey = "assessment" | "proposal" | "brief";
+type TabKey = "assessment" | "proposal" | "brief" | "spec";
 
 type BriefQuestion = {
   id: string;
@@ -186,6 +186,21 @@ export default function Home() {
     | { state: "error"; message: string }
   >({ state: "idle" });
 
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const toggleShow = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+    window.addEventListener("scroll", toggleShow, { passive: true });
+    toggleShow();
+    return () => window.removeEventListener("scroll", toggleShow);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const questionsBySection = useMemo(() => {
     const map = new Map<string, BriefQuestion[]>();
     for (const q of briefQuestions) {
@@ -227,10 +242,10 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900">
-      <div className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6">
+    <div className="min-h-screen flex flex-col bg-zinc-50 text-zinc-900">
+      <div className="mx-auto w-full max-w-4xl px-4 py-6 sm:py-10 sm:px-6 flex-1">
         <header className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight">
+          <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">
             lebkuchen.ru — оценка и предложение
           </h1>
           <p className="text-sm text-zinc-600">
@@ -239,12 +254,12 @@ export default function Home() {
         </header>
 
         <div className="mt-6 rounded-2xl border border-zinc-200 bg-white shadow-sm">
-          <div className="flex flex-col gap-2 border-b border-zinc-200 p-2 sm:flex-row">
+          <div className="flex flex-col gap-2 border-b border-zinc-200 p-2 sm:flex-row sm:gap-1">
             <button
               type="button"
               onClick={() => setTab("assessment")}
               className={classNames(
-                "rounded-xl px-4 py-2 text-sm font-medium transition",
+                "rounded-xl px-3 py-2 text-xs font-medium transition sm:px-4 sm:text-sm",
                 tab === "assessment"
                   ? "bg-zinc-900 text-white"
                   : "text-zinc-700 hover:bg-zinc-100"
@@ -256,7 +271,7 @@ export default function Home() {
               type="button"
               onClick={() => setTab("proposal")}
               className={classNames(
-                "rounded-xl px-4 py-2 text-sm font-medium transition",
+                "rounded-xl px-3 py-2 text-xs font-medium transition sm:px-4 sm:text-sm",
                 tab === "proposal"
                   ? "bg-zinc-900 text-white"
                   : "text-zinc-700 hover:bg-zinc-100"
@@ -268,7 +283,7 @@ export default function Home() {
               type="button"
               onClick={() => setTab("brief")}
               className={classNames(
-                "rounded-xl px-4 py-2 text-sm font-medium transition",
+                "rounded-xl px-3 py-2 text-xs font-medium transition sm:px-4 sm:text-sm",
                 tab === "brief"
                   ? "bg-zinc-900 text-white"
                   : "text-zinc-700 hover:bg-zinc-100"
@@ -276,12 +291,24 @@ export default function Home() {
             >
               Брифинг
             </button>
+            <button
+              type="button"
+              onClick={() => setTab("spec")}
+              className={classNames(
+                "rounded-xl px-3 py-2 text-xs font-medium transition sm:px-4 sm:text-sm",
+                tab === "spec"
+                  ? "bg-zinc-900 text-white"
+                  : "text-zinc-700 hover:bg-zinc-100"
+              )}
+            >
+              Тех. задание
+            </button>
           </div>
 
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             {tab === "assessment" && (
               <section className="space-y-4">
-                <h2 className="text-lg font-semibold">Оценка:</h2>
+                <h2 className="text-base font-semibold sm:text-lg">Оценка:</h2>
                 <p className="leading-7 text-zinc-800">
                   По первому впечатлению сайт на CMS (Joomla, WP, OpenCart,
                   Tilda) не поворотливая система не предназначенная для большого
@@ -293,31 +320,132 @@ export default function Home() {
 
             {tab === "proposal" && (
               <section className="space-y-4">
-                <h2 className="text-lg font-semibold">Предложение:</h2>
-                <p className="leading-7 text-zinc-800">
-                  Сразу о конструкторах сайтов забыть, если план работать в
-                  долгую и масштабироваться.
-                </p>
+                <h2 className="text-base font-semibold sm:text-lg">Предложение:</h2>
+                <div className="space-y-4 leading-7 text-zinc-800">
+                  <p>
+                    Сразу о конструкторах сайтов забыть, если план работать в
+                    долгую и масштабироваться.
+                  </p>
 
-                <div className="space-y-3 leading-7 text-zinc-800">
+                  <div className="space-y-3">
+                    <h3 className="font-medium text-zinc-900">Стек для ЕС-рынка</h3>
+                    <p>
+                      Next.js + TypeScript + React + next-intl / next-i18next
+                    </p>
+                    <ul className="ml-4 list-disc space-y-1 text-sm text-zinc-700">
+                      <li>Более быстрая загрузка страниц</li>
+                      <li>Лучшие позиции в Google</li>
+                      <li>Поддержка нескольких языков для охвата рынков ЕС</li>
+                      <li>Другие плюшки</li>
+                    </ul>
+                    <p className="text-sm text-zinc-600">
+                      Можно рассмотреть и на Django, но там и стоимости выше и скорость разработки ниже.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h3 className="font-medium text-zinc-900">База данных</h3>
+                    <p>PostgreSQL + Prisma ORM</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h3 className="font-medium text-zinc-900">Платежи</h3>
+                    <p>Stripe — покрывает весь ЕС, стандарт для ЕС, прост в подключении</p>
+                    <p className="text-sm text-zinc-600">
+                      Можно рассмотреть альтернативы, но в основном используют Stripe.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h3 className="font-medium text-zinc-900">Дизайн и логотип</h3>
+                    <p>
+                      В текущем состоянии проект не имеет дизайна совсем.
+                    </p>
+                    <p>
+                      Логотип нужно переделать, потому что он говорит, что компания занимается логистическими услугами или что-то такое.
+                    </p>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {tab === "spec" && (
+              <section className="space-y-4">
+                <h2 className="text-base font-semibold sm:text-lg">Техническое задание</h2>
+                <div className="space-y-4 leading-7 text-zinc-800">
                   <p>
-                    Стек в разработке для сегмента ЕС будет хорош: Next.js +
-                    TypeScript + React + next-intl / next-i18next (Более быстрая
-                    загрузка страниц, лучшие позиции в Google, поддержка
-                    нескольких языков для охвата рынков ЕС и другие плюшки)
-                    Можно рассмотреть и на Django, но там и стоимости выше и
-                    скорость разработки ниже.
+                    <strong>Цель:</strong> повторить функциональность и UX сайта
+                    lebkuchen.ru, но без CMS, на современном стеке с мультиязычностью.
                   </p>
-                  <p>База данных: PostgreSQL + Prisma ORM.</p>
-                  <p>
-                    Платежи: Stripe т к покрывает весь ЕС, но можно и рассмотреть
-                    альтернативы(в основном используют Stripe — стандарт для ЕС,
-                    да и прост в подключении)
-                  </p>
-                  <p>
-                    (В текущем состоянии проект не имеет дизайна совсем) Логотип
-                    нужно переделать потому что он говорит что компания
-                    занимается логистическими услугами или что-то такое.
+
+                  <div className="space-y-2">
+                    <p><strong>Языки:</strong> DE (немецкий), US (английский), RU (русский).</p>
+                    <p><strong>Стек:</strong> Next.js + TypeScript + React + next-intl / next-i18next.</p>
+                    <p><strong>База данных:</strong> PostgreSQL + Prisma ORM.</p>
+                    <p><strong>Платежи:</strong> Stripe (покрытие ЕС).</p>
+                    <p><strong>Хостинг:</strong> Vercel (Edge, CDN, CI/CD).</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <p><strong>Ключевые функции:</strong></p>
+                    <ul className="ml-4 list-disc space-y-1 text-sm">
+                      <li>Каталог товаров с фильтрами и поиском</li>
+                      <li>Корзина и оформление заказа</li>
+                      <li>«Собрать свой набор» (как на текущем сайте)</li>
+                      <li>Личный кабинет покупателя</li>
+                      <li>Мультиязычность (URL-префиксы: /de, /en, /ru)</li>
+                      <li>SEO-оптимизация для каждого языка</li>
+                      <li>Интеграция с платежной системой</li>
+                      <li>Админ-панель для управления товарами (без CMS)</li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-2">
+                    <p><strong>Дизайн:</strong></p>
+                    <ul className="ml-4 list-disc space-y-1 text-sm">
+                      <li>Современный, минималистичный UI</li>
+                      <li>Адаптивность (mobile-first)</li>
+                      <li>Новый логотип (текущий выглядит как логистика)</li>
+                      <li>Фирменный стиль: тёплые/уютные цвета, премиум-акценты</li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-2">
+                    <p><strong>Технические требования:</strong></p>
+                    <ul className="ml-4 list-disc space-y-1 text-sm">
+                      <li>SSR/SSG для SEO и скорости</li>
+                      <li>Lazy loading изображений</li>
+                      <li>Web Vitals оптимизация</li>
+                      <li>CDN для статики</li>
+                      <li>CI/CD на Vercel</li>
+                      <li>Мониторинг ошибок (Sentry)</li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-2">
+                    <p><strong>Интеграции:</strong></p>
+                    <ul className="ml-4 list-disc space-y-1 text-sm">
+                      <li>Stripe Payments (EUR, USD, RUB)</li>
+                      <li>Email-транзакции (Resend)</li>
+                      <li>Аналитика (Google Analytics 4)</li>
+                      <li>ERP/склад (по запросу)</li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-2">
+                    <p><strong>Сроки и этапы:</strong></p>
+                    <ul className="ml-4 list-disc space-y-1 text-sm">
+                      <li>Этап 1: Дизайн и прототипы (2 недели)</li>
+                      <li>Этап 2: Core-функционал (каталог, корзина) (4 недели)</li>
+                      <li>Этап 3: Мультиязычность и SEO (2 недели)</li>
+                      <li>Этап 4: Админ-панель и интеграции (3 недели)</li>
+                      <li>Этап 5: Тестирование и запуск (1 неделя)</li>
+                    </ul>
+                  </div>
+
+                  <p className="text-sm text-zinc-600">
+                    Итог: современный, быстрый, масштабируемый интернет-магазин с
+                    мультиязычностью и премиум UX, готовый к росту в ЕС.
                   </p>
                 </div>
               </section>
@@ -326,7 +454,7 @@ export default function Home() {
             {tab === "brief" && (
               <section className="space-y-6">
                 <div className="space-y-2">
-                  <h2 className="text-lg font-semibold">Брифинг</h2>
+                  <h2 className="text-base font-semibold sm:text-lg">Брифинг</h2>
                   <p className="text-sm text-zinc-600">
                     Заполните ответы — отправим их на почту.
                   </p>
@@ -335,11 +463,11 @@ export default function Home() {
                 <form onSubmit={submitBrief} className="space-y-8">
                   {questionsBySection.map(([section, questions]) => (
                     <div key={section} className="space-y-4">
-                      <h3 className="text-base font-semibold">{section}</h3>
+                      <h3 className="text-sm font-semibold sm:text-base">{section}</h3>
                       <div className="space-y-4">
                         {questions.map((q) => (
                           <div key={q.id} className="space-y-2">
-                            <div className="text-sm font-medium text-zinc-900">
+                            <div className="text-xs font-medium text-zinc-900 sm:text-sm">
                               {q.number}. {q.question}
                             </div>
                             <textarea
@@ -352,6 +480,7 @@ export default function Home() {
                               }
                               rows={3}
                               className="w-full resize-y rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm outline-none focus:border-zinc-400"
+                              style={{ fontSize: "16px" }}
                               placeholder={q.placeholder}
                             />
                           </div>
@@ -384,6 +513,35 @@ export default function Home() {
             )}
           </div>
         </div>
+
+        {/* Footer */}
+        <footer className="mt-10 border-t border-zinc-200 bg-white py-6 text-center text-xs text-zinc-500 sm:mt-12 sm:text-sm">
+          Pavel Alekseev / selen.it agency / 2026 Espana
+        </footer>
+
+        {/* Scroll to top button */}
+        {showScrollTop && (
+          <button
+            type="button"
+            onClick={scrollToTop}
+            className="fixed bottom-20 right-6 flex h-12 w-12 items-center justify-center rounded-full bg-zinc-900 text-white shadow-lg transition hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-400 sm:bottom-6"
+            aria-label="Наверх"
+          >
+            <svg
+              className="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 10l7-7m0 0l7 7m-7-7v18"
+              />
+            </svg>
+          </button>
+        )}
       </div>
     </div>
   );
