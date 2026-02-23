@@ -433,6 +433,20 @@ export default function Home() {
                   </div>
 
                   <div className="space-y-2">
+                    <p><strong>Безопасность:</strong></p>
+                    <ul className="ml-4 list-disc space-y-1 text-sm">
+                      <li>HTTPS по умолчанию (Vercel Edge)</li>
+                      <li>CORS-политика для API</li>
+                      <li>Rate limiting на формах и API</li>
+                      <li>Защита от CSRF и XSS (Next.js built-in)</li>
+                      <li>Env-переменные для секретов (RESEND_API_KEY, Stripe keys)</li>
+                      <li>PCI DSS compliance через Stripe</li>
+                      <li>Регулярные обновления зависимостей (Dependabot)</li>
+                      <li>Логирование ошибок (Sentry)</li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-2">
                     <p><strong>Сроки и этапы:</strong></p>
                     <ul className="ml-4 list-disc space-y-1 text-sm">
                       <li>Этап 1: Дизайн и прототипы (2 недели)</li>
