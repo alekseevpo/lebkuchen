@@ -1,6 +1,11 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
 
+const briefQuestions = [
+  { id: "brandbook", question: "Фирменный стиль / брендбук существует?" },
+  { id: "spec", question: "Техническое задание уже есть?" },
+];
+
 function isRecordOfStrings(value: unknown): value is Record<string, string> {
   if (!value || typeof value !== "object") return false;
   for (const v of Object.values(value as Record<string, unknown>)) {
@@ -39,6 +44,7 @@ export async function POST(req: Request) {
     }
 
     const answers = (body as { answers?: unknown }).answers;
+    const files = (body as { files?: unknown }).files;
 
     if (!isRecordOfStrings(answers)) {
       return NextResponse.json(
@@ -52,12 +58,26 @@ export async function POST(req: Request) {
       lines.push(`${key}: ${value}`);
     }
 
+    // Добавляем информацию о файлах
+    if (files && typeof files === "object") {
+      lines.push("\n--- Прикреплённые файлы ---");
+      for (const [questionId, fileList] of Object.entries(files as Record<string, unknown>)) {
+        if (Array.isArray(fileList)) {
+          const question = briefQuestions.find((q) => q.id === questionId);
+          lines.push(`\n${question?.question || questionId}:`);
+          for (const file of fileList as Array<{ name: string; type: string; size: number }>) {
+            lines.push(`  - ${file.name} (${file.type}, ${(file.size / 1024).toFixed(1)} KB)`);
+          }
+        }
+      }
+    }
+
     const resend = new Resend(apiKey);
     await resend.emails.send({
       from,
       to,
       subject: "Бриф lebkuchen.ru",
-      text: lines.join("\n\n"),
+      text: lines.join("\n"),
     });
 
     return NextResponse.json({ ok: true });

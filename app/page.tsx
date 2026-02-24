@@ -10,6 +10,7 @@ type BriefQuestion = {
   number: number;
   question: string;
   placeholder?: string;
+  allowFiles?: boolean;
 };
 
 const briefQuestions: BriefQuestion[] = [
@@ -116,6 +117,7 @@ const briefQuestions: BriefQuestion[] = [
     number: 15,
     question: "Фирменный стиль / брендбук существует?",
     placeholder: "Если да — приложите файлы",
+    allowFiles: true,
   },
   {
     id: "logo",
@@ -151,6 +153,7 @@ const briefQuestions: BriefQuestion[] = [
     number: 20,
     question: "Техническое задание уже есть?",
     placeholder: "Если да — поделитесь документом",
+    allowFiles: true,
   },
   {
     id: "hosting",
@@ -175,8 +178,35 @@ function classNames(...parts: Array<string | false | null | undefined>) {
 export default function Home() {
   const [tab, setTab] = useState<TabKey>("assessment");
   const [form, setForm] = useState<Record<string, string>>(() => {
+    const saved = typeof window !== "undefined" ? localStorage.getItem("brief-form") : null;
     const initial: Record<string, string> = {};
-    for (const q of briefQuestions) initial[q.id] = q.placeholder ?? "";
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (typeof parsed === "object") {
+          for (const q of briefQuestions) initial[q.id] = parsed[q.id] ?? "";
+        }
+      } catch {}
+    }
+    for (const q of briefQuestions) {
+      if (!(q.id in initial)) initial[q.id] = "";
+    }
+    return initial;
+  });
+  const [files, setFiles] = useState<Record<string, File[]>>(() => {
+    const saved = typeof window !== "undefined" ? localStorage.getItem("brief-files") : null;
+    const initial: Record<string, File[]> = {};
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (typeof parsed === "object") {
+          // Восстанавливаем только имена файлов, сами файлы не сохраняем в localStorage
+          for (const q of briefQuestions) {
+            if (parsed[q.id]) initial[q.id] = [];
+          }
+        }
+      } catch {}
+    }
     return initial;
   });
   const [status, setStatus] = useState<
@@ -187,6 +217,15 @@ export default function Home() {
   >({ state: "idle" });
 
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [briefSection, setBriefSection] = useState(0);
+  const [expandedSections, setExpandedSections] = useState<Set<number>>(new Set([0]));
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      localStorage.setItem("brief-form", JSON.stringify(form));
+    }, 500);
+    return () => clearTimeout(timeout);
+  }, [form]);
 
   useEffect(() => {
     const toggleShow = () => {
@@ -211,15 +250,79 @@ export default function Home() {
     return Array.from(map.entries());
   }, []);
 
+  const toggleSection = (idx: number) => {
+    setExpandedSections((prev) => {
+      const next = new Set(prev);
+      if (next.has(idx)) next.delete(idx);
+      else next.add(idx);
+      return next;
+    });
+  };
+
+  const progress = useMemo(() => {
+    const filled = Object.values(form).filter((v) => v.trim() !== "").length;
+    return Math.round((filled / briefQuestions.length) * 100);
+  }, [form]);
+
+  const clearForm = () => {
+    const empty: Record<string, string> = {};
+    for (const q of briefQuestions) empty[q.id] = "";
+    setForm(empty);
+    setFiles({});
+    localStorage.removeItem("brief-form");
+    localStorage.removeItem("brief-files");
+  };
+
+  const handleFileChange = (questionId: string, fileList: FileList | null) => {
+    if (!fileList) return;
+    const newFiles = Array.from(fileList);
+    setFiles((prev) => ({ ...prev, [questionId]: newFiles }));
+  };
+
+  const removeFile = (questionId: string, index: number) => {
+    setFiles((prev) => {
+      const current = prev[questionId] ?? [];
+      const next = [...current];
+      next.splice(index, 1);
+      return { ...prev, [questionId]: next };
+    });
+  };
+
+  const fileToBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        if (typeof reader.result === "string") resolve(reader.result);
+        else reject(new Error("Failed to convert file to base64"));
+      };
+      reader.onerror = reject;
+    });
+
   async function submitBrief(e: React.FormEvent) {
     e.preventDefault();
     setStatus({ state: "sending" });
 
     try {
+      // Подготовка файлов для отправки (base64)
+      const filesData: Record<string, Array<{ name: string; type: string; size: number; data: string }>> = {};
+      for (const [questionId, fileList] of Object.entries(files)) {
+        if (fileList.length > 0) {
+          filesData[questionId] = await Promise.all(
+            fileList.map(async (file) => ({
+              name: file.name,
+              type: file.type,
+              size: file.size,
+              data: await fileToBase64(file),
+            }))
+          );
+        }
+      }
+
       const res = await fetch("/api/brief", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers: form }),
+        body: JSON.stringify({ answers: form, files: filesData }),
       });
 
       const data = (await res.json().catch(() => null)) as
@@ -470,58 +573,177 @@ export default function Home() {
                 <div className="space-y-2">
                   <h2 className="text-base font-semibold sm:text-lg">Брифинг</h2>
                   <p className="text-sm text-zinc-600">
-                    Заполните ответы — отправим их на почту.
+                    Заполните ответы — отправим их на почту. Данные сохраняются автоматически.
                   </p>
                 </div>
 
-                <form onSubmit={submitBrief} className="space-y-8">
-                  {questionsBySection.map(([section, questions]) => (
-                    <div key={section} className="space-y-4">
-                      <h3 className="text-sm font-semibold sm:text-base">{section}</h3>
-                      <div className="space-y-4">
-                        {questions.map((q) => (
-                          <div key={q.id} className="space-y-2">
-                            <div className="text-xs font-medium text-zinc-900 sm:text-sm">
-                              {q.number}. {q.question}
+                {/* Прогресс-бар */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs text-zinc-600">
+                    <span>Прогресс заполнения</span>
+                    <span>{progress}%</span>
+                  </div>
+                  <div className="h-2 w-full rounded-full bg-zinc-200">
+                    <div
+                      className="h-2 rounded-full bg-emerald-500 transition-all"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                </div>
+
+                {/* Навигация по секциям */}
+                <div className="flex flex-wrap gap-2">
+                  {questionsBySection.map(([section], idx) => (
+                    <button
+                      key={section}
+                      type="button"
+                      onClick={() => {
+                        setBriefSection(idx);
+                        setExpandedSections((prev) => new Set([...prev, idx]));
+                        setTimeout(() => {
+                          const el = document.getElementById(`section-${idx}`);
+                          el?.scrollIntoView({ behavior: "smooth", block: "start" });
+                        }, 100);
+                      }}
+                      className={classNames(
+                        "rounded-lg px-3 py-1 text-xs font-medium transition",
+                        briefSection === idx
+                          ? "bg-zinc-900 text-white"
+                          : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200"
+                      )}
+                    >
+                      {section}
+                    </button>
+                  ))}
+                </div>
+
+                <form onSubmit={submitBrief} className="space-y-6">
+                  {questionsBySection.map(([section, questions], idx) => (
+                    <div
+                      key={section}
+                      id={`section-${idx}`}
+                      className={classNames(
+                        "rounded-xl border border-zinc-200 bg-white p-4 transition-shadow sm:p-5",
+                        briefSection === idx && "ring-2 ring-zinc-900 ring-offset-2"
+                      )}
+                    >
+                      {/* Заголовок секции с аккордеоном */}
+                      <button
+                        type="button"
+                        onClick={() => toggleSection(idx)}
+                        className="flex w-full items-center justify-between text-left"
+                      >
+                        <h3 className="text-sm font-semibold sm:text-base">{section}</h3>
+                        <svg
+                          className={classNames(
+                            "h-4 w-4 text-zinc-500 transition-transform",
+                            expandedSections.has(idx) && "rotate-180"
+                          )}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+
+                      {/* Поля секции */}
+                      {expandedSections.has(idx) && (
+                        <div className="mt-4 space-y-4">
+                          {questions.map((q) => (
+                            <div key={q.id} className="space-y-2">
+                              <label htmlFor={q.id} className="block text-xs font-medium text-zinc-900 sm:text-sm">
+                                {q.number}. {q.question}
+                              </label>
+                              <textarea
+                                id={q.id}
+                                value={form[q.id] ?? ""}
+                                onChange={(e) =>
+                                  setForm((prev) => ({
+                                    ...prev,
+                                    [q.id]: e.target.value,
+                                  }))
+                                }
+                                rows={2}
+                                className="w-full resize-y rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm outline-none transition focus:border-zinc-400 focus:ring-1 focus:ring-zinc-400"
+                                style={{ fontSize: "16px" }}
+                                placeholder={q.placeholder}
+                              />
+                              {q.allowFiles && (
+                                <div className="space-y-2">
+                                  <div className="flex flex-wrap gap-2">
+                                    {(files[q.id] ?? []).map((file, fileIdx) => (
+                                      <div
+                                        key={fileIdx}
+                                        className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs text-zinc-700"
+                                      >
+                                        <span className="truncate max-w-32">{file.name}</span>
+                                        <button
+                                          type="button"
+                                          onClick={() => removeFile(q.id, fileIdx)}
+                                          className="text-zinc-500 hover:text-red-500 transition"
+                                        >
+                                          ×
+                                        </button>
+                                      </div>
+                                    ))}
+                                  </div>
+                                  <label
+                                    htmlFor={`file-${q.id}`}
+                                    className="inline-flex h-9 cursor-pointer items-center justify-center rounded-lg border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50 sm:px-4 sm:text-sm"
+                                  >
+                                    Прикрепить файл
+                                  </label>
+                                  <input
+                                    id={`file-${q.id}`}
+                                    type="file"
+                                    multiple
+                                    onChange={(e) => handleFileChange(q.id, e.target.files)}
+                                    className="sr-only"
+                                  />
+                                  <p className="text-xs text-zinc-500">
+                                    Можно загрузить несколько файлов (PDF, DOC, DOCX, PNG, JPG)
+                                  </p>
+                                </div>
+                              )}
                             </div>
-                            <textarea
-                              value={form[q.id] ?? ""}
-                              onChange={(e) =>
-                                setForm((prev) => ({
-                                  ...prev,
-                                  [q.id]: e.target.value,
-                                }))
-                              }
-                              rows={3}
-                              className="w-full resize-y rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm outline-none focus:border-zinc-400"
-                              style={{ fontSize: "16px" }}
-                              placeholder={q.placeholder}
-                            />
-                          </div>
-                        ))}
-                      </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   ))}
 
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <button
-                      type="submit"
-                      disabled={status.state === "sending"}
-                      className="inline-flex h-11 items-center justify-center rounded-xl bg-zinc-900 px-5 text-sm font-medium text-white transition disabled:opacity-60"
-                    >
-                      {status.state === "sending" ? "Отправляем…" : "Отправить"}
-                    </button>
-                    {status.state === "success" && (
-                      <div className="text-sm text-emerald-700">
-                        {status.message}
-                      </div>
-                    )}
-                    {status.state === "error" && (
-                      <div className="text-sm text-red-700">
-                        {status.message}
-                      </div>
-                    )}
+                  {/* Кнопки управления */}
+                  <div className="flex flex-col gap-3 border-t border-zinc-200 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+                      <button
+                        type="submit"
+                        disabled={status.state === "sending"}
+                        className="inline-flex h-10 items-center justify-center rounded-xl bg-zinc-900 px-4 text-xs font-medium text-white transition disabled:opacity-60 sm:px-5 sm:text-sm"
+                      >
+                        {status.state === "sending" ? "Отправляем…" : "Отправить"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={clearForm}
+                        className="inline-flex h-10 items-center justify-center rounded-lg border border-zinc-200 bg-white px-4 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50 sm:px-5 sm:text-sm"
+                      >
+                        Очистить
+                      </button>
+                    </div>
                   </div>
+
+                  {/* Статус отправки */}
+                  {status.state === "success" && (
+                    <div className="rounded-lg bg-emerald-50 p-3 text-sm text-emerald-700">
+                      {status.message}
+                    </div>
+                  )}
+                  {status.state === "error" && (
+                    <div className="rounded-lg bg-red-50 p-3 text-sm text-red-700">
+                      {status.message}
+                    </div>
+                  )}
                 </form>
               </section>
             )}
