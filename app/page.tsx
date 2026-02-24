@@ -264,6 +264,16 @@ export default function Home() {
     return Math.round((filled / briefQuestions.length) * 100);
   }, [form]);
 
+  const validationErrors = useMemo(() => {
+    const errors: Record<string, string> = {};
+    for (const q of briefQuestions) {
+      if (!form[q.id] || form[q.id].trim() === "") {
+        errors[q.id] = "Обязательное поле";
+      }
+    }
+    return errors;
+  }, [form]);
+
   const clearForm = () => {
     const empty: Record<string, string> = {};
     for (const q of briefQuestions) empty[q.id] = "";
@@ -301,6 +311,24 @@ export default function Home() {
 
   async function submitBrief(e: React.FormEvent) {
     e.preventDefault();
+    setStatus({ state: "idle" });
+
+    // Проверка валидации
+    const errors = validationErrors;
+    const hasErrors = Object.keys(errors).length > 0;
+    if (hasErrors) {
+      setStatus({
+        state: "error",
+        message: "Пожалуйста, заполните все обязательные поля",
+      });
+      // Прокрутка к первой ошибке
+      const firstErrorId = Object.keys(errors)[0];
+      const el = document.getElementById(firstErrorId);
+      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+      el?.focus();
+      return;
+    }
+
     setStatus({ state: "sending" });
 
     try {
@@ -574,6 +602,7 @@ export default function Home() {
                   <h2 className="text-base font-semibold sm:text-lg">Брифинг</h2>
                   <p className="text-sm text-zinc-600">
                     Заполните ответы — отправим их на почту. Данные сохраняются автоматически.
+                    <span className="text-red-500"> Все поля обязательны для заполнения.</span>
                   </p>
                 </div>
 
@@ -654,6 +683,7 @@ export default function Home() {
                             <div key={q.id} className="space-y-2">
                               <label htmlFor={q.id} className="block text-xs font-medium text-zinc-900 sm:text-sm">
                                 {q.number}. {q.question}
+                                <span className="text-red-500 ml-1">*</span>
                               </label>
                               <textarea
                                 id={q.id}
@@ -665,10 +695,22 @@ export default function Home() {
                                   }))
                                 }
                                 rows={2}
-                                className="w-full resize-y rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm outline-none transition focus:border-zinc-400 focus:ring-1 focus:ring-zinc-400"
+                                className={classNames(
+                                  "w-full resize-y rounded-lg border bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm outline-none transition focus:ring-1",
+                                  validationErrors[q.id]
+                                    ? "border-red-300 focus:border-red-400 focus:ring-red-400"
+                                    : "border-zinc-200 focus:border-zinc-400 focus:ring-zinc-400"
+                                )}
                                 style={{ fontSize: "16px" }}
                                 placeholder={q.placeholder}
+                                aria-invalid={!!validationErrors[q.id]}
+                                aria-describedby={validationErrors[q.id] ? `error-${q.id}` : undefined}
                               />
+                              {validationErrors[q.id] && (
+                                <p id={`error-${q.id}`} className="text-xs text-red-600">
+                                  {validationErrors[q.id]}
+                                </p>
+                              )}
                               {q.allowFiles && (
                                 <div className="space-y-2">
                                   <div className="flex flex-wrap gap-2">
