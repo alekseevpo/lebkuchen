@@ -162,7 +162,7 @@ export default function Home() {
                     </div>
                     <div className="max-w-md p-4 bg-brand-ink text-brand-cream rounded-2xl space-y-2 shadow-xl">
                       <p className="text-xs font-bold text-brand-gold uppercase tracking-widest font-sans">Objective</p>
-                      <p className="text-sm leading-relaxed font-serif opacity-80 italic">
+                      <p className="text-base leading-relaxed font-serif text-brand-cream">
                         Premium Sweet Gifts E-Commerce Platform — детальная спецификация требований к UX, дизайну и
                         производительности для рынков ЕС.
                       </p>
@@ -361,7 +361,7 @@ export default function Home() {
                         <div className="p-8 rounded-3xl border border-brand-gold/10 bg-white/40 space-y-3">
                           <h3 className="text-[10px] font-bold text-brand-gold uppercase tracking-widest">Typography</h3>
                           <div className="space-y-1">
-                            <p className="font-serif font-bold text-2xl text-brand-ink">Cormorant / Jost</p>
+                            <p className="font-serif font-bold text-2xl text-brand-ink">Cormorant Garamond / Jost</p>
                             <p className="text-xs font-sans text-brand-ink/40 uppercase tracking-widest leading-tight">Serif for headlines · Sans for body</p>
                           </div>
                         </div>
