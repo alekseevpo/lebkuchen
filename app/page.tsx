@@ -501,152 +501,98 @@ export default function Home() {
             )}
 
             {tab === "spec" && (
-              <section className="space-y-4">
-                <h2 className="text-base font-semibold sm:text-lg">Техническое задание</h2>
-                <div className="space-y-4 leading-7 text-zinc-800">
-                  <p>
-                    <strong>Цель:</strong> повторить функциональность и UX сайта
-                    lebkuchen.ru, но без CMS, на современном стеке с мультиязычностью.
-                  </p>
-
-                  <div className="space-y-2">
-                    <p><strong>Языки:</strong> DE (немецкий), US (английский), RU (русский).</p>
-                    <p><strong>Стек:</strong> Next.js + TypeScript + React + next-intl / next-i18next.</p>
-                    <p><strong>База данных:</strong> PostgreSQL + Prisma ORM.</p>
-                    <p><strong>Платежи:</strong> Stripe (покрытие ЕС).</p>
-                    <p><strong>Хостинг:</strong> Vercel (Edge, CDN, CI/CD).</p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <p><strong>Ключевые функции:</strong></p>
-                    <ul className="ml-4 list-disc space-y-1 text-sm">
-                      <li>Каталог товаров с фильтрами и поиском</li>
-                      <li>Корзина и оформление заказа</li>
-                      <li>«Собрать свой набор» (как на текущем сайте)</li>
-                      <li>Личный кабинет покупателя</li>
-                      <li>Мультиязычность (URL-префиксы: /de, /en, /ru)</li>
-                      <li>SEO-оптимизация для каждого языка</li>
-                      <li>Интеграция с платежной системой</li>
-                      <li>Админ-панель для управления товарами (без CMS)</li>
-                    </ul>
-                  </div>
-
-                  <div className="space-y-2">
-                    <p><strong>Дизайн:</strong></p>
-                    <ul className="ml-4 list-disc space-y-1 text-sm">
-                      <li>Современный, минималистичный UI</li>
-                      <li>Адаптивность (mobile-first)</li>
-                      <li>Новый логотип (текущий выглядит как логистика)</li>
-                      <li>Фирменный стиль: тёплые/уютные цвета, премиум-акценты</li>
-                    </ul>
-                  </div>
-
-                  <div className="space-y-2">
-                    <p><strong>Технические требования:</strong></p>
-                    <ul className="ml-4 list-disc space-y-1 text-sm">
-                      <li>SSR/SSG для SEO и скорости</li>
-                      <li>Lazy loading изображений</li>
-                      <li>Web Vitals оптимизация</li>
-                      <li>CDN для статики</li>
-                      <li>CI/CD на Vercel</li>
-                      <li>Мониторинг ошибок (Sentry)</li>
-                    </ul>
-                  </div>
-
-                  <div className="space-y-2">
-                    <p><strong>Интеграции:</strong></p>
-                    <ul className="ml-4 list-disc space-y-1 text-sm">
-                      <li>Stripe Payments (EUR, USD, RUB)</li>
-                      <li>Email-транзакции (Resend)</li>
-                      <li>Аналитика (Google Analytics 4)</li>
-                      <li>ERP/склад (по запросу)</li>
-                    </ul>
-                  </div>
-
-                  <div className="space-y-2">
-                    <p><strong>Безопасность:</strong></p>
-                    <ul className="ml-4 list-disc space-y-1 text-sm">
-                      <li>HTTPS по умолчанию (Vercel Edge)</li>
-                      <li>CORS-политика для API</li>
-                      <li>Rate limiting на формах и API</li>
-                      <li>Защита от CSRF и XSS (Next.js built-in)</li>
-                      <li>Env-переменные для секретов (RESEND_API_KEY, Stripe keys)</li>
-                      <li>PCI DSS compliance через Stripe</li>
-                      <li>Регулярные обновления зависимостей (Dependabot)</li>
-                      <li>Логирование ошибок (Sentry)</li>
-                    </ul>
-                  </div>
-
-                  <div className="space-y-2">
-                    <p><strong>Сроки и этапы:</strong></p>
-                    <ul className="ml-4 list-disc space-y-1 text-sm">
-                      <li>Этап 1: Дизайн и прототипы (2 недели)</li>
-                      <li>Этап 2: Core-функционал (каталог, корзина) (4 недели)</li>
-                      <li>Этап 3: Мультиязычность и SEO (2 недели)</li>
-                      <li>Этап 4: Админ-панель и интеграции (3 недели)</li>
-                      <li>Этап 5: Тестирование и запуск (1 неделя)</li>
-                    </ul>
-                  </div>
-
+              <section className="space-y-8">
+                <div className="space-y-2">
+                  <h2 className="text-base font-semibold sm:text-lg">Техническое задание</h2>
                   <p className="text-sm text-zinc-600">
-                    Итог: современный, быстрый, масштабируемый интернет-магазин с
-                    мультиязычностью и премиум UX, готовый к росту в ЕС.
+                    Premium Sweet Gifts E-Commerce Platform — спецификация требований к разработке.
                   </p>
                 </div>
+
+                <div className="prose prose-sm max-w-none text-zinc-700 prose-h3:text-zinc-900 prose-h4:text-zinc-900 prose-ul:text-zinc-700 prose-li:text-zinc-700 prose-p:text-zinc-700 prose-strong:text-zinc-900">
+                  
+                  <div className="border border-zinc-200 rounded-lg p-6 bg-gradient-to-br from-zinc-50 to-zinc-100 mb-8 shadow-sm">
+                    <div className="text-center mb-6">
+                      <h3 className="text-2xl font-bold text-zinc-900 mb-4">Premium Sweet Gifts E-Commerce Platform</h3>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
+                      <div className="bg-white rounded-lg p-4 border border-zinc-100">
+                        <div className="text-zinc-500 text-xs font-medium mb-1">Рынок</div>
+                        <div className="font-semibold text-zinc-900">Европейский Союз (EU) — B2B + B2C</div>
+                      </div>
+                      <div className="bg-white rounded-lg p-4 border border-zinc-100">
+                        <div className="text-zinc-500 text-xs font-medium mb-1">Языки</div>
+                        <div className="font-semibold text-zinc-900">EN · DE · FR · ES · IT · RU</div>
+                      </div>
+                      <div className="bg-white rounded-lg p-4 border border-zinc-100">
+                        <div className="text-zinc-500 text-xs font-medium mb-1">Стек</div>
+                        <div className="font-semibold text-zinc-900">Next.js 14 · NestJS · PostgreSQL · Sanity CMS · Stripe</div>
+                      </div>
+                      <div className="bg-white rounded-lg p-4 border border-zinc-100">
+                        <div className="text-zinc-500 text-xs font-medium mb-1">Версия</div>
+                        <div className="font-semibold text-zinc-900">1.0 (26 февраля 2026)</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6">
+                    <h3 className="text-xl font-semibold border-b border-zinc-200 pb-2">UI/UX Улучшения — Premium Sweet Gifts</h3>
+                    
+                    <div className="bg-zinc-50 border border-zinc-200 rounded-lg p-6 mb-6">
+                      <h4 className="text-lg font-medium mb-4">Общая оценка</h4>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div className="text-center p-4 bg-white rounded-lg border border-zinc-100">
+                          <div className="text-2xl font-bold text-amber-600">6</div>
+                          <div className="text-xs text-zinc-600 mt-1">Языков платформы</div>
+                        </div>
+                        <div className="text-center p-4 bg-white rounded-lg border border-zinc-100">
+                          <div className="text-2xl font-bold text-amber-600">17</div>
+                          <div className="text-xs text-zinc-600 mt-1">Функциональных модулей</div>
+                        </div>
+                        <div className="text-center p-4 bg-white rounded-lg border border-zinc-100">
+                          <div className="text-2xl font-bold text-amber-600">22</div>
+                          <div className="text-xs text-zinc-600 mt-1">Недели разработки</div>
+                        </div>
+                        <div className="text-center p-4 bg-white rounded-lg border border-zinc-100">
+                          <div className="text-2xl font-bold text-amber-600">+34%</div>
+                          <div className="text-xs text-zinc-600 mt-1">Рост конверсии с UX*</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+
               </section>
             )}
-
             {tab === "brief" && (
               <section className="space-y-6">
-                <div className="space-y-2">
-                  <h2 className="text-base font-semibold sm:text-lg">Брифинг</h2>
-                  <p className="text-sm text-zinc-600">
-                    Заполните ответы — отправим их на почту. Данные сохраняются автоматически.
-                    <span className="text-red-500"> Все поля обязательны для заполнения.</span>
-                  </p>
-                </div>
-
-                {/* Прогресс-бар */}
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-xs text-zinc-600">
-                    <span>Прогресс заполнения</span>
-                    <span>{progress}%</span>
-                  </div>
-                  <div className="h-2 w-full rounded-full bg-zinc-200">
-                    <div
-                      className="h-2 rounded-full bg-emerald-500 transition-all"
-                      style={{ width: `${progress}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* Навигация по секциям */}
-                <div className="flex flex-wrap gap-2">
-                  {questionsBySection.map(([section], idx) => (
-                    <button
-                      key={section}
-                      type="button"
-                      onClick={() => {
-                        setBriefSection(idx);
-                        setExpandedSections((prev) => new Set([...prev, idx]));
-                        setTimeout(() => {
-                          const el = document.getElementById(`section-${idx}`);
-                          el?.scrollIntoView({ behavior: "smooth", block: "start" });
-                        }, 100);
-                      }}
-                      className={classNames(
-                        "rounded-lg px-3 py-1 text-xs font-medium transition",
-                        briefSection === idx
-                          ? "bg-zinc-900 text-white"
-                          : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200"
-                      )}
-                    >
-                      {section}
-                    </button>
-                  ))}
-                </div>
-
                 <form onSubmit={submitBrief} className="space-y-6">
+                  {/* Навигация по секциям */}
+                  <div className="flex flex-wrap gap-2">
+                    {questionsBySection.map(([section], idx) => (
+                      <button
+                        key={section}
+                        type="button"
+                        onClick={() => {
+                          setBriefSection(idx);
+                          setExpandedSections((prev) => new Set([...prev, idx]));
+                          setTimeout(() => {
+                            const el = document.getElementById(`section-${idx}`);
+                            el?.scrollIntoView({ behavior: "smooth", block: "start" });
+                          }, 100);
+                        }}
+                        className={classNames(
+                          "rounded-lg px-3 py-1 text-xs font-medium transition",
+                          briefSection === idx
+                            ? "bg-zinc-900 text-white"
+                            : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200"
+                        )}
+                      >
+                        {section}
+                      </button>
+                    ))}
+                  </div>
+
                   {questionsBySection.map(([section, questions], idx) => (
                     <div
                       key={section}
@@ -672,7 +618,7 @@ export default function Home() {
                           stroke="currentColor"
                           viewBox="0 0 24 24"
                         >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                         </svg>
                       </button>
 
@@ -790,11 +736,10 @@ export default function Home() {
               </section>
             )}
           </div>
-        </div>
 
         {/* Footer */}
         <footer className="mt-10 border-t border-zinc-200 bg-white py-6 text-center text-xs text-zinc-500 sm:mt-12 sm:text-sm">
-          Pavel Alekseev / selen.it agency / 2026 Espana
+          Pavel Alekseev / 2026
         </footer>
 
         {/* Scroll to top button */}
@@ -814,7 +759,7 @@ export default function Home() {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
+                strokeWidth="2"
                 d="M5 10l7-7m0 0l7 7m-7-7v18"
               />
             </svg>
@@ -822,5 +767,6 @@ export default function Home() {
         )}
       </div>
     </div>
+  </div>
   );
 }
