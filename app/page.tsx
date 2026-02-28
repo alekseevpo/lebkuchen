@@ -157,12 +157,12 @@ export default function Home() {
                       </h2>
                       <div className="flex items-center gap-2">
                         <span className="h-px w-6 bg-brand-gold"></span>
-                        <p className="text-brand-gold font-bold tracking-[0.3em] text-[10px] uppercase font-sans">Edition v1.1 · 2026</p>
+                        <p className="text-brand-gold font-bold tracking-[0.3em] text-[11px] uppercase font-sans">Edition v1.1 · 2026</p>
                       </div>
                     </div>
                     <div className="max-w-md p-4 bg-brand-ink text-brand-cream rounded-2xl space-y-2 shadow-xl">
-                      <p className="text-[10px] font-bold text-brand-gold uppercase tracking-widest font-sans">Objective</p>
-                      <p className="text-xs leading-relaxed font-sans opacity-80 italic">
+                      <p className="text-[11px] font-bold text-brand-gold uppercase tracking-widest font-sans">Objective</p>
+                      <p className="text-xs leading-relaxed font-serif opacity-80 italic">
                         Premium Sweet Gifts E-Commerce Platform — детальная спецификация требований к UX, дизайну и
                         производительности для рынков ЕС.
                       </p>
@@ -179,16 +179,16 @@ export default function Home() {
                     { label: "Рост конверсии с UX*", val: "+34%", sub: "Прогноз Baymard Institute" },
                   ].map((s, i) => (
                     <div key={i} className="bg-white/40 backdrop-blur-sm border border-brand-gold/10 rounded-3xl p-6 space-y-2 hover:border-brand-gold/40 transition-all duration-500 group">
-                      <span className="block text-[9px] text-brand-gold font-bold uppercase tracking-[0.2em] font-sans group-hover:tracking-[0.3em] transition-all">{s.label}</span>
+                      <span className="block text-[11px] text-brand-gold font-bold uppercase tracking-[0.2em] font-sans group-hover:tracking-[0.3em] transition-all">{s.label}</span>
                       <span className="block text-3xl font-serif font-bold text-brand-ink">{s.val}</span>
-                      <span className="block text-[10px] text-brand-ink/40 font-medium font-sans uppercase tracking-tighter">{s.sub}</span>
+                      <span className="block text-[11px] text-brand-ink/40 font-medium font-sans uppercase tracking-tighter">{s.sub}</span>
                     </div>
                   ))}
                 </div>
 
                 <section className="space-y-10">
                   <div className="flex items-center gap-4">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-ink text-brand-cream text-[10px] font-bold">01</span>
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-ink text-brand-cream text-xs font-serif font-bold">01</span>
                     <h3 className="text-xl font-serif font-bold text-brand-ink uppercase tracking-tight">Критические улучшения UX и конверсии</h3>
                   </div>
                   <div className="grid sm:grid-cols-2 gap-8">
@@ -239,19 +239,19 @@ export default function Home() {
                       <div key={i} className="p-8 bg-white border border-brand-gold/10 rounded-[2rem] space-y-6 hover:shadow-xl hover:border-brand-gold/30 transition-all duration-500 group">
                         <div className="flex items-start justify-between">
                           <span className="text-2xl">{item.icon}</span>
-                          <span className="text-[8px] font-bold text-brand-error uppercase tracking-widest px-3 py-1 bg-brand-error/5 rounded-full ring-1 ring-brand-error/10">
+                          <span className="text-[10px] font-bold text-brand-error uppercase tracking-widest px-3 py-1 bg-brand-error/5 rounded-full ring-1 ring-brand-error/10">
                             {item.priority}
                           </span>
                         </div>
                         <div className="space-y-3">
                           <h4 className="text-xl font-serif font-bold text-brand-ink group-hover:text-brand-gold transition-colors">{item.title}</h4>
-                          <p className="text-xs text-brand-ink/70 font-sans leading-relaxed">
-                            <span className="block font-bold text-[9px] text-brand-ink uppercase mb-1 opacity-40">Зачем:</span>
+                          <p className="text-sm text-brand-ink/70 font-sans font-medium leading-relaxed">
+                            <span className="block font-bold text-[10px] text-brand-ink uppercase mb-1 opacity-40">Зачем:</span>
                             {item.why}
                           </p>
                           <div className="pt-4 flex items-center gap-3">
                             <div className="h-px flex-1 bg-brand-gold/10"></div>
-                            <span className="text-[10px] font-bold text-emerald-600 uppercase font-sans whitespace-nowrap">✨ {item.gives}</span>
+                            <span className="text-[11px] font-bold text-emerald-600 uppercase font-serif whitespace-nowrap">✨ {item.gives}</span>
                           </div>
                         </div>
                       </div>
@@ -261,7 +261,7 @@ export default function Home() {
 
                 <section className="space-y-12 pb-20">
                   <div className="flex items-center gap-4">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-ink text-brand-cream text-[10px] font-bold">02</span>
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-ink text-brand-cream text-[10px] font-serif font-bold">02</span>
                     <h3 className="text-xl font-serif font-bold text-brand-ink uppercase tracking-tight">План реализации и Roadmap</h3>
                   </div>
 
@@ -311,12 +311,12 @@ export default function Home() {
                       <div key={i} className="relative pl-8 border-l border-brand-gold/20 space-y-4">
                         <div className="absolute -left-[5px] top-0 w-2.5 h-2.5 rounded-full bg-brand-gold"></div>
                         <div className="space-y-1">
-                          <span className="text-[10px] font-bold text-brand-gold uppercase tracking-widest">{p.phase}</span>
+                          <span className="text-[11px] font-bold text-brand-gold uppercase tracking-widest">{p.phase}</span>
                           <h4 className="text-lg font-serif font-bold text-brand-ink">{p.title}</h4>
                         </div>
                         <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-2">
                           {p.items.map((item, j) => (
-                            <li key={j} className="text-xs text-brand-ink/60 font-sans flex items-center gap-2">
+                            <li key={j} className="text-sm text-brand-ink/60 font-sans flex items-center gap-2">
                               <span className="w-1 h-1 rounded-full bg-brand-gold/40"></span>
                               {item}
                             </li>
@@ -329,7 +329,7 @@ export default function Home() {
 
                 <section className="space-y-10 border-t border-brand-gold/10 pt-16">
                   <div className="flex items-center gap-4">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-ink text-brand-cream text-[10px] font-bold">03</span>
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-ink text-brand-cream text-[10px] font-serif font-bold">03</span>
                     <h3 className="text-xl font-serif font-bold text-brand-ink uppercase tracking-tight">Технологический стек и Design System</h3>
                   </div>
 
@@ -350,7 +350,7 @@ export default function Home() {
                             { label: "CMS", val: "Sanity / Contentful" },
                           ].map((t, i) => (
                             <div key={i} className="bg-white/5 p-3 rounded-2xl border border-white/10 text-center">
-                              <span className="block text-[8px] text-brand-gold uppercase mb-1 opacity-60 font-sans">{t.label}</span>
+                              <span className="block text-[10px] text-brand-gold uppercase mb-1 opacity-60 font-sans">{t.label}</span>
                               <span className="block text-[11px] font-bold font-sans tracking-tight">{t.val}</span>
                             </div>
                           ))}
@@ -362,7 +362,7 @@ export default function Home() {
                           <h3 className="text-[10px] font-bold text-brand-gold uppercase tracking-widest">Typography</h3>
                           <div className="space-y-1">
                             <p className="font-serif font-bold text-2xl text-brand-ink">Cormorant / Jost</p>
-                            <p className="text-[10px] font-sans text-brand-ink/40 uppercase tracking-widest leading-tight">Serif for headlines · Sans for body</p>
+                            <p className="text-xs font-sans text-brand-ink/40 uppercase tracking-widest leading-tight">Serif for headlines · Sans for body</p>
                           </div>
                         </div>
                         <div className="p-8 rounded-3xl border border-brand-gold/10 bg-white/40 space-y-3">
@@ -371,7 +371,7 @@ export default function Home() {
                             {["#E2C17D", "#1A1A1A", "#FDFBF7", "#8B1F2C"].map((c, i) => (
                               <div key={i} className="group relative">
                                 <div className="w-8 h-8 rounded-lg shadow-inner ring-1 ring-black/5" style={{ backgroundColor: c }}></div>
-                                <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[8px] font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">{c}</span>
+                                <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">{c}</span>
                               </div>
                             ))}
                           </div>
@@ -381,7 +381,7 @@ export default function Home() {
 
                     <div className="space-y-6">
                       <div className="p-8 rounded-[2rem] border border-brand-gold/10 bg-white divide-y divide-brand-gold/5 shadow-sm">
-                        <h4 className="pb-4 text-xs font-bold text-brand-ink uppercase tracking-widest">Key Infrastructure</h4>
+                        <h4 className="pb-4 text-xs font-serif font-bold text-brand-ink uppercase tracking-widest">Key Infrastructure</h4>
                         <div className="py-4 space-y-1">
                           <p className="font-serif font-bold text-brand-ink text-lg">Stripe / Adyen</p>
                           <p className="text-[10px] text-brand-ink/50 uppercase">EU Payments Standard</p>
@@ -401,16 +401,19 @@ export default function Home() {
 
                 <section className="pt-16 border-t border-brand-gold/10">
                   <div className="bg-brand-cream rounded-[3rem] p-8 sm:p-12 border border-brand-gold/20 space-y-12">
-                    <div className="text-center space-y-2">
+                    <div className="text-center space-y-4">
+                      <div className="flex justify-center">
+                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-gold text-brand-cream text-[10px] font-serif font-bold">04</span>
+                      </div>
                       <h3 className="text-3xl font-serif font-bold text-brand-ink">Бюджет и сроки реализации</h3>
-                      <p className="text-sm text-brand-ink/50 font-sans uppercase tracking-[0.2em]">€ 29 040 · 22 недели</p>
+                      <p className="text-base text-brand-ink/50 font-serif uppercase tracking-[0.2em]">€ 29 040 · 22 недели</p>
                     </div>
                   </div>
                 </section>
 
                 <section className="pt-20 border-t border-brand-gold/10 space-y-10">
                   <div className="flex items-center gap-4">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-gold text-brand-cream text-[10px] font-bold">05</span>
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-gold text-brand-cream text-[10px] font-serif font-bold">05</span>
                     <h3 className="text-xl font-serif font-bold text-brand-ink">Комментарии к проекту</h3>
                   </div>
                   <div className="space-y-8">
@@ -467,20 +470,20 @@ export default function Home() {
         <footer className="mt-20 border-t border-brand-gold/10 pt-16 pb-12 px-6 sm:px-12 space-y-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
             <div className="space-y-6">
-              <span className="block text-[9px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">Project</span>
+              <span className="block text-[11px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">Project</span>
               <p className="text-2xl font-serif font-bold text-brand-ink uppercase">Premium Gifts</p>
             </div>
             <div className="space-y-6">
-              <span className="block text-[9px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">Contact</span>
-              <p className="text-xs text-brand-ink font-sans">alekseevpo@gmail.com</p>
+              <span className="block text-[11px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">Contact</span>
+              <p className="text-sm text-brand-ink font-sans">alekseevpo@gmail.com</p>
             </div>
             <div className="space-y-6">
-              <span className="block text-[9px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">EU Compliance</span>
-              <p className="text-[10px] text-brand-ink/50 font-sans">GDPR Compliant</p>
+              <span className="block text-[11px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">EU Compliance</span>
+              <p className="text-xs text-brand-ink/50 font-sans">GDPR Compliant</p>
             </div>
             <div className="space-y-6">
-              <span className="block text-[9px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">Status</span>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-[9px] font-bold text-emerald-600 border border-emerald-100 uppercase font-sans">
+              <span className="block text-[11px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">Status</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-[10px] font-bold text-emerald-600 border border-emerald-100 uppercase font-sans">
                 Draft Reviewed
               </div>
             </div>
