@@ -161,8 +161,8 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="max-w-md p-4 bg-brand-ink text-brand-cream rounded-2xl space-y-2 shadow-xl">
-                      <p className="text-[11px] font-bold text-brand-gold uppercase tracking-widest font-sans">Objective</p>
-                      <p className="text-xs leading-relaxed font-serif opacity-80 italic">
+                      <p className="text-xs font-bold text-brand-gold uppercase tracking-widest font-sans">Objective</p>
+                      <p className="text-sm leading-relaxed font-serif opacity-80 italic">
                         Premium Sweet Gifts E-Commerce Platform — детальная спецификация требований к UX, дизайну и
                         производительности для рынков ЕС.
                       </p>
