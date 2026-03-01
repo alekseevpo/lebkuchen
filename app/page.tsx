@@ -114,8 +114,8 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-brand-cream text-brand-ink">
-      <div className="mx-auto w-full max-w-7xl px-2 py-4 sm:py-10 sm:px-6 flex-1">
+    <div className="min-h-screen flex flex-col bg-brand-cream text-brand-ink overflow-x-hidden">
+      <div className="mx-auto w-full max-w-7xl px-2 py-4 sm:py-10 sm:px-6 flex-1 overflow-x-hidden">
         <header className="space-y-2">
           <h1 className="text-3xl font-serif font-bold tracking-tight sm:text-4xl text-brand-ink uppercase">
             lebkuchen.ru — стратегия и техзадание
@@ -214,7 +214,7 @@ export default function Home() {
                     Actually, it's safer to provide the WHOLE return block if it fits, or fix the beginning and end.
                 */}
                 <header className="space-y-8">
-                  <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-brand-gold/20 pb-8">
+                  <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 border-b border-brand-gold/20 pb-6 sm:pb-8">
                     <div className="space-y-2">
                       <h2 className="text-3xl sm:text-5xl font-serif font-bold text-brand-ink tracking-tight uppercase">
                         Техническое<br />Задание
@@ -224,7 +224,7 @@ export default function Home() {
                         <p className="text-brand-gold font-bold tracking-[0.3em] text-xs uppercase font-sans">Edition v1.1 · 2026</p>
                       </div>
                     </div>
-                    <div className="max-w-md p-4 bg-brand-ink text-brand-cream rounded-2xl space-y-2 shadow-xl">
+                    <div className="w-full sm:max-w-md p-4 bg-brand-ink text-brand-cream rounded-2xl space-y-2 shadow-xl">
                       <p className="text-[13px] font-bold text-brand-gold uppercase tracking-widest font-sans">Objective</p>
                       <p className="text-base leading-relaxed font-serif text-brand-cream">
                         Premium Sweet Gifts E-Commerce Platform — детальная спецификация требований к UX, дизайну и
@@ -484,7 +484,7 @@ export default function Home() {
                           </p>
                           <div className="pt-4 flex items-center gap-3">
                             <div className="h-px flex-1 bg-brand-gold/10"></div>
-                            <span className="text-[14px] sm:text-[15px] font-bold text-emerald-600 uppercase font-sans whitespace-nowrap">✨ {item.gives}</span>
+                            <span className="text-[14px] sm:text-[15px] font-bold text-emerald-600 uppercase font-sans">✨ {item.gives}</span>
                           </div>
                         </div>
                       </div>
@@ -575,7 +575,7 @@ export default function Home() {
                           <p className="font-serif font-bold text-3xl text-brand-cream">Next.js 15 + React 19</p>
                           <p className="text-[15px] text-brand-gold/80 italic">Headless E-commerce Framework</p>
                         </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
+                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 pt-4">
                           {[
                             { label: "Logic", val: "TypeScript" },
                             { label: "Style", val: "Vanilla CSS" },
@@ -608,7 +608,7 @@ export default function Home() {
 
                       <div className="p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-brand-gold/10 bg-white/40 space-y-4 sm:space-y-6">
                         <h3 className="text-[10px] font-bold text-brand-gold uppercase tracking-widest">Color Palette</h3>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-4">
+                        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3 sm:gap-4">
                           {[
                             { hex: "#C5A037", name: "Brand Gold" },
                             { hex: "#E0CFA1", name: "Light Gold" },
@@ -661,7 +661,7 @@ export default function Home() {
                   <div className="bg-brand-ink rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-16 text-brand-cream space-y-8 sm:space-y-16 shadow-2xl relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-brand-gold/10 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-brand-gold/20 transition-all duration-1000"></div>
 
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 relative">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 relative">
                       {[
                         { label: "Общий бюджет", val: "€ 29 040" },
                         { label: "Сроки проекта", val: "22 недели" },
@@ -675,7 +675,7 @@ export default function Home() {
                       ))}
                     </div>
 
-                    <div className="grid lg:grid-cols-3 gap-6 relative">
+                    <div className="grid gap-4 sm:gap-6 lg:grid-cols-3 relative">
                       {[
                         {
                           role: "Разработчик 1 (Frontend)",
