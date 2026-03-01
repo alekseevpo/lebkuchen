@@ -115,7 +115,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-brand-cream text-brand-ink">
-      <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:py-10 sm:px-6 flex-1">
+      <div className="mx-auto w-full max-w-7xl px-2 py-4 sm:py-10 sm:px-6 flex-1">
         <header className="space-y-2">
           <h1 className="text-3xl font-serif font-bold tracking-tight sm:text-4xl text-brand-ink uppercase">
             lebkuchen.ru — стратегия и техзадание
@@ -125,8 +125,8 @@ export default function Home() {
           </p>
         </header>
 
-        <div className="mt-6 rounded-[2.5rem] border border-brand-gold/15 bg-white shadow-2xl shadow-brand-gold/10 overflow-hidden">
-          <div className="flex flex-wrap items-center gap-8 border-b border-brand-gold/15 px-6 pt-6 sm:px-10 shrink-0">
+        <div className="mt-4 sm:mt-6 rounded-2xl sm:rounded-[2.5rem] border border-brand-gold/15 bg-white shadow-2xl shadow-brand-gold/10 overflow-hidden">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-8 border-b border-brand-gold/15 px-4 pt-4 sm:px-10 sm:pt-6 shrink-0">
             <button
               type="button"
               onClick={() => setTab("strategy")}
@@ -153,7 +153,7 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="p-6 sm:p-10 lg:p-14">
+          <div className="p-3 sm:p-10 lg:p-14">
             {tab === "strategy" && (
               <div className="space-y-12 animate-in fade-in duration-700">
                 <section className="space-y-8 text-brand-ink/80 font-sans">
@@ -187,7 +187,7 @@ export default function Home() {
                         desc: "Отсутствие английского/немецкого языков, валюты Euro и обязательных уведомлений GDPR (политика конфиденциальности, cookie-баннеры) делает невозможным легальную работу и эффективное продвижение в странах Евросоюза."
                       }
                     ].map((item, i) => (
-                      <div key={i} className="bg-transparent border border-brand-gold/20 rounded-2xl p-6 sm:p-8 space-y-4 shadow-sm hover:border-brand-gold/30 transition-colors">
+                      <div key={i} className="bg-transparent border border-brand-gold/20 rounded-2xl p-4 sm:p-8 space-y-3 sm:space-y-4 shadow-sm hover:border-brand-gold/30 transition-colors">
                         <div className="flex items-center justify-between">
                           <h3 className="font-serif font-bold text-brand-ink">{item.title}</h3>
                           <span className={classNames(
@@ -216,7 +216,7 @@ export default function Home() {
                 <header className="space-y-8">
                   <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-brand-gold/20 pb-8">
                     <div className="space-y-2">
-                      <h2 className="text-4xl sm:text-5xl font-serif font-bold text-brand-ink tracking-tight uppercase">
+                      <h2 className="text-3xl sm:text-5xl font-serif font-bold text-brand-ink tracking-tight uppercase">
                         Техническое<br />Задание
                       </h2>
                       <div className="flex items-center gap-2">
@@ -251,13 +251,13 @@ export default function Home() {
                 </div>
 
                 <section className="space-y-10">
-                  <div className="flex items-center gap-6 border-b border-brand-gold/10 pb-6 mb-8">
+                  <div className="flex items-center gap-3 sm:gap-6 border-b border-brand-gold/10 pb-4 sm:pb-6 mb-6 sm:mb-8">
                     <span className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-ink text-brand-cream text-[16px] sm:text-[18px] font-serif font-bold">01</span>
                     <h3 className="text-xl font-serif font-bold text-brand-ink uppercase tracking-tight">Критические улучшения UX и конверсии</h3>
                   </div>
 
-                  <div className="mb-16 bg-white border border-brand-gold/15 rounded-[2.5rem] shadow-2xl shadow-brand-gold/5 overflow-hidden flex flex-col lg:flex-row hover:shadow-brand-gold/10 transition-shadow duration-700">
-                    <div className="lg:w-1/2 p-8 sm:p-12 bg-zinc-50 flex items-center justify-center relative overflow-hidden">
+                  <div className="mb-8 sm:mb-16 bg-white border border-brand-gold/15 rounded-2xl sm:rounded-[2.5rem] shadow-2xl shadow-brand-gold/5 overflow-hidden flex flex-col lg:flex-row hover:shadow-brand-gold/10 transition-shadow duration-700">
+                    <div className="lg:w-1/2 p-4 sm:p-12 bg-zinc-50 flex items-center justify-center relative overflow-hidden">
                       <div className="absolute top-0 right-0 w-64 h-64 bg-brand-gold/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
 
                       {/* Product Card Showcase */}
@@ -317,10 +317,10 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <div className="lg:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-8 bg-white z-10">
+                    <div className="lg:w-1/2 p-5 sm:p-12 lg:p-16 flex flex-col justify-center space-y-6 sm:space-y-8 bg-white z-10">
                       <div className="space-y-3">
                         <span className="text-[10px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">UX Breakdown</span>
-                        <h4 className="text-3xl font-serif font-bold text-brand-ink">Архитектура премиальной карточки</h4>
+                        <h4 className="text-2xl sm:text-3xl font-serif font-bold text-brand-ink">Архитектура премиальной карточки</h4>
                         <p className="text-[15px] leading-relaxed text-brand-ink/70 font-sans">
                           В премиум-сегменте карточка товара не должна кричать скидками. Она обязана выглядеть как витрина бутика. Мы удаляем визуальный шум и делаем акцент на эстетике продукта.
                         </p>
@@ -348,14 +348,14 @@ export default function Home() {
                   </div>
 
                   {/* Predictive Search Example */}
-                  <div className="mb-16 bg-white border border-brand-gold/15 rounded-[2.5rem] shadow-2xl shadow-brand-gold/5 overflow-hidden flex flex-col lg:flex-row-reverse hover:shadow-brand-gold/10 transition-shadow duration-700">
+                  <div className="mb-8 sm:mb-16 bg-white border border-brand-gold/15 rounded-2xl sm:rounded-[2.5rem] shadow-2xl shadow-brand-gold/5 overflow-hidden flex flex-col lg:flex-row-reverse hover:shadow-brand-gold/10 transition-shadow duration-700">
                     {/* Search UI Showcase */}
-                    <div className="lg:w-1/2 p-8 sm:p-12 bg-zinc-50 flex items-center justify-center relative overflow-hidden">
+                    <div className="lg:w-1/2 p-4 sm:p-12 bg-zinc-50 flex items-center justify-center relative overflow-hidden">
                       <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-gold/5 rounded-full blur-3xl -ml-32 -mb-32"></div>
 
                       <div className="w-full max-w-md relative z-10 space-y-0">
                         {/* Search Input */}
-                        <div className="bg-white rounded-t-3xl border border-brand-gold/10 border-b-0 p-5 flex items-center gap-4 shadow-lg shadow-black/5">
+                        <div className="bg-white rounded-t-2xl sm:rounded-t-3xl border border-brand-gold/10 border-b-0 p-3 sm:p-5 flex items-center gap-3 sm:gap-4 shadow-lg shadow-black/5">
                           <svg className="w-5 h-5 text-brand-gold/60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                           </svg>
@@ -364,7 +364,7 @@ export default function Home() {
                         </div>
 
                         {/* Dropdown Results */}
-                        <div className="bg-white rounded-b-3xl border border-brand-gold/10 border-t border-brand-gold/5 shadow-2xl shadow-black/10 divide-y divide-brand-gold/5">
+                        <div className="bg-white rounded-b-2xl sm:rounded-b-3xl border border-brand-gold/10 border-t border-brand-gold/5 shadow-2xl shadow-black/10 divide-y divide-brand-gold/5">
                           {[
                             { name: "Императорский Пряник", cat: "Подарочный набор", price: "€ 145", badge: "Bestseller" },
                             { name: "Императорское Ассорти", cat: "Праздничная серия", price: "€ 89", badge: null },
@@ -395,10 +395,10 @@ export default function Home() {
                     </div>
 
                     {/* UX Description */}
-                    <div className="lg:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-8 bg-white z-10">
+                    <div className="lg:w-1/2 p-5 sm:p-12 lg:p-16 flex flex-col justify-center space-y-6 sm:space-y-8 bg-white z-10">
                       <div className="space-y-3">
                         <span className="text-[10px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">UX Breakdown</span>
-                        <h4 className="text-3xl font-serif font-bold text-brand-ink">Predictive Search с превью</h4>
+                        <h4 className="text-2xl sm:text-3xl font-serif font-bold text-brand-ink">Predictive Search с превью</h4>
                         <p className="text-[15px] leading-relaxed text-brand-ink/70 font-sans">
                           Поиск — главный инструмент конверсии. Мы превращаем обычную строку поиска в мини-витрину: пользователь видит товар, цену и фото ещё до перехода на страницу результатов.
                         </p>
@@ -469,7 +469,7 @@ export default function Home() {
                         icon: "🚚"
                       }
                     ].map((item, i) => (
-                      <div key={i} className="p-8 bg-white border border-brand-gold/10 rounded-[2rem] space-y-6 hover:shadow-xl hover:border-brand-gold/30 transition-all duration-500 group">
+                      <div key={i} className="p-5 sm:p-8 bg-white border border-brand-gold/10 rounded-xl sm:rounded-[2rem] space-y-4 sm:space-y-6 hover:shadow-xl hover:border-brand-gold/30 transition-all duration-500 group">
                         <div className="flex items-start justify-between">
                           <span className="text-2xl">{item.icon}</span>
                           <span className="text-[11px] font-bold text-brand-error uppercase tracking-widest px-3 py-1 bg-brand-error/5 rounded-full ring-1 ring-brand-error/10">
@@ -493,7 +493,7 @@ export default function Home() {
                 </section>
 
                 <section className="space-y-12 pb-20">
-                  <div className="flex items-center gap-6 border-b border-brand-gold/10 pb-6 mb-8">
+                  <div className="flex items-center gap-3 sm:gap-6 border-b border-brand-gold/10 pb-4 sm:pb-6 mb-6 sm:mb-8">
                     <span className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-ink text-brand-cream text-[16px] sm:text-[18px] font-serif font-bold">02</span>
                     <h3 className="text-xl font-serif font-bold text-brand-ink uppercase tracking-tight">План реализации и Roadmap</h3>
                   </div>
@@ -561,14 +561,14 @@ export default function Home() {
                 </section>
 
                 <section className="space-y-10 border-t border-brand-gold/10 pt-16">
-                  <div className="flex items-center gap-6 border-b border-brand-gold/10 pb-6 mb-8">
+                  <div className="flex items-center gap-3 sm:gap-6 border-b border-brand-gold/10 pb-4 sm:pb-6 mb-6 sm:mb-8">
                     <span className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-ink text-brand-cream text-[16px] sm:text-[18px] font-serif font-bold">03</span>
                     <h3 className="text-xl font-serif font-bold text-brand-ink uppercase tracking-tight">Технологический стек и Design System</h3>
                   </div>
 
                   <div className="grid lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-8">
-                      <div className="bg-brand-ink rounded-[2.5rem] p-8 text-brand-cream space-y-6 shadow-2xl relative overflow-hidden group">
+                      <div className="bg-brand-ink rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 text-brand-cream space-y-4 sm:space-y-6 shadow-2xl relative overflow-hidden group">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-brand-gold/10 rounded-full -mr-16 -mt-16 blur-3xl group-hover:bg-brand-gold/20 transition-all duration-700"></div>
                         <div className="space-y-2 relative">
                           <h3 className="font-bold text-brand-gold uppercase text-[11px] tracking-widest">Core Architecture</h3>
@@ -590,7 +590,7 @@ export default function Home() {
                         </div>
                       </div>
 
-                      <div className="p-8 rounded-3xl border border-brand-gold/10 bg-white/40 space-y-6">
+                      <div className="p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-brand-gold/10 bg-white/40 space-y-4 sm:space-y-6">
                         <h3 className="text-[11px] font-bold text-brand-gold uppercase tracking-widest">Typography Strategy</h3>
                         <div className="grid sm:grid-cols-2 gap-8">
                           <div className="space-y-3">
@@ -606,7 +606,7 @@ export default function Home() {
                         </div>
                       </div>
 
-                      <div className="p-8 rounded-3xl border border-brand-gold/10 bg-white/40 space-y-6">
+                      <div className="p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-brand-gold/10 bg-white/40 space-y-4 sm:space-y-6">
                         <h3 className="text-[10px] font-bold text-brand-gold uppercase tracking-widest">Color Palette</h3>
                         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-4">
                           {[
@@ -633,7 +633,7 @@ export default function Home() {
                     </div>
 
                     <div className="space-y-6">
-                      <div className="p-8 rounded-[2rem] border border-brand-gold/10 bg-white divide-y divide-brand-gold/5 shadow-sm">
+                      <div className="p-5 sm:p-8 rounded-2xl sm:rounded-[2rem] border border-brand-gold/10 bg-white divide-y divide-brand-gold/5 shadow-sm">
                         <h4 className="pb-4 text-[13px] font-serif font-bold text-brand-ink uppercase tracking-widest">Key Infrastructure</h4>
                         <div className="py-4 space-y-1">
                           <p className="font-serif font-bold text-brand-ink text-lg">Stripe / Adyen</p>
@@ -653,12 +653,12 @@ export default function Home() {
                 </section>
 
                 <section className="pt-16 border-t border-brand-gold/10">
-                  <div className="flex items-center gap-4 mb-10">
+                  <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-10">
                     <span className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-ink text-brand-cream text-[16px] sm:text-[18px] font-serif font-bold">04</span>
                     <h3 className="text-xl font-serif font-bold text-brand-ink uppercase tracking-tight">Бюджет, сроки и команда</h3>
                   </div>
 
-                  <div className="bg-brand-ink rounded-[2.5rem] p-10 sm:p-16 text-brand-cream space-y-16 shadow-2xl relative overflow-hidden group">
+                  <div className="bg-brand-ink rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-16 text-brand-cream space-y-8 sm:space-y-16 shadow-2xl relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-brand-gold/10 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-brand-gold/20 transition-all duration-1000"></div>
 
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 relative">
@@ -711,7 +711,7 @@ export default function Home() {
                           ]
                         }
                       ].map((member, idx) => (
-                        <div key={idx} className="bg-white/5 border border-white/10 rounded-3xl p-6 space-y-6 hover:bg-white/10 transition-colors">
+                        <div key={idx} className="bg-white/5 border border-white/10 rounded-xl sm:rounded-3xl p-4 sm:p-6 space-y-4 sm:space-y-6 hover:bg-white/10 transition-colors">
                           <div className="space-y-1 border-b border-white/10 pb-4">
                             <h4 className="font-serif font-bold text-lg text-brand-gold">{member.role}</h4>
                             <div className="flex gap-4 text-xs font-sans tracking-widest uppercase opacity-70">
@@ -734,12 +734,12 @@ export default function Home() {
                 </section>
 
                 <section className="pt-20 border-t border-brand-gold/10 space-y-10">
-                  <div className="flex items-center gap-6 border-b border-brand-gold/10 pb-6 mb-8">
+                  <div className="flex items-center gap-3 sm:gap-6 border-b border-brand-gold/10 pb-4 sm:pb-6 mb-6 sm:mb-8">
                     <span className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-gold text-brand-cream text-[16px] sm:text-[18px] font-serif font-bold">05</span>
                     <h3 className="text-xl font-serif font-bold text-brand-ink">Комментарии к проекту</h3>
                   </div>
                   <div className="space-y-8">
-                    <div className="bg-white/40 border border-brand-gold/20 rounded-[2.5rem] p-8 space-y-6">
+                    <div className="bg-white/40 border border-brand-gold/20 rounded-2xl sm:rounded-[2.5rem] p-4 sm:p-8 space-y-4 sm:space-y-6">
                       <textarea
                         onKeyDown={(e) => {
                           if (e.key === "Enter" && !e.shiftKey) {
@@ -789,7 +789,7 @@ export default function Home() {
           </div>
         </div>
 
-        <footer className="mt-20 border-t border-brand-gold/10 pt-16 pb-12 px-6 sm:px-12 space-y-16">
+        <footer className="mt-10 sm:mt-20 border-t border-brand-gold/10 pt-8 sm:pt-16 pb-8 sm:pb-12 px-3 sm:px-12 space-y-8 sm:space-y-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
             <div className="space-y-6">
               <span className="block text-xs font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">Project</span>
