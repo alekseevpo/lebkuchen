@@ -255,6 +255,175 @@ export default function Home() {
                     <span className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-ink text-brand-cream text-[16px] sm:text-[18px] font-serif font-bold">01</span>
                     <h3 className="text-xl font-serif font-bold text-brand-ink uppercase tracking-tight">Критические улучшения UX и конверсии</h3>
                   </div>
+
+                  <div className="mb-16 bg-white border border-brand-gold/15 rounded-[2.5rem] shadow-2xl shadow-brand-gold/5 overflow-hidden flex flex-col lg:flex-row hover:shadow-brand-gold/10 transition-shadow duration-700">
+                    <div className="lg:w-1/2 p-8 sm:p-12 bg-zinc-50 flex items-center justify-center relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-64 h-64 bg-brand-gold/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+
+                      {/* Product Card Showcase */}
+                      <div className="w-full max-w-sm bg-white rounded-3xl shadow-xl shadow-black/5 overflow-hidden border border-brand-gold/10 group relative z-10">
+                        {/* Image Placeholder Area */}
+                        <div className="aspect-[4/5] bg-brand-cream relative overflow-hidden flex items-center justify-center">
+                          <div className="absolute top-4 left-4 z-10">
+                            <span className="px-3 py-1 bg-brand-ink text-brand-cream text-[10px] font-bold uppercase tracking-widest rounded-full font-sans shadow-sm">Bestseller</span>
+                          </div>
+                          {/* Minimalist illustration of a box */}
+                          <div className="w-32 h-32 bg-white/60 border border-brand-gold/30 rounded-xl shadow-sm rotate-3 group-hover:rotate-0 transition-transform duration-500 flex items-center justify-center relative">
+                            <div className="absolute top-1/2 left-0 right-0 h-px bg-brand-gold/20 -translate-y-1/2"></div>
+                            <div className="absolute top-0 bottom-0 left-1/2 w-px bg-brand-gold/20 -translate-x-1/2"></div>
+                            <span className="font-serif text-brand-gold text-2xl font-bold opacity-50">L</span>
+                          </div>
+                        </div>
+
+                        {/* Content Area */}
+                        <div className="p-6 space-y-5">
+                          <div className="space-y-1">
+                            <p className="text-[11px] font-bold text-brand-gold uppercase tracking-widest font-sans">Подарочный набор</p>
+                            <h4 className="text-2xl font-serif font-bold text-brand-ink leading-tight group-hover:text-brand-gold transition-colors">Императорский Пряник</h4>
+                          </div>
+
+                          <div className="flex items-end justify-between">
+                            <div className="space-y-0.5">
+                              <p className="text-sm font-sans text-brand-ink/50 line-through decoration-brand-gold/50">€ 185</p>
+                              <p className="text-2xl font-sans font-bold text-brand-ink tracking-tight">€ 145</p>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-[11px] font-sans text-emerald-600/80 font-bold uppercase tracking-widest flex items-center justify-end gap-1.5">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                В наличии
+                              </p>
+                              <p className="text-[10px] font-sans text-brand-ink/40 uppercase tracking-widest mt-1">Остаток: 5 шт.</p>
+                            </div>
+                          </div>
+
+                          <button className="w-full relative group overflow-hidden py-4 rounded-2xl shadow-lg shadow-brand-gold/20 flex items-center justify-center gap-3 transition-all duration-500">
+                            {/* Animated Background */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-brand-ink via-brand-ink to-brand-gold/90 transition-transform duration-500 group-hover:scale-x-110 origin-left"></div>
+
+                            {/* Shine Effect */}
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+                              <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"></div>
+                            </div>
+
+                            {/* Text & Icon */}
+                            <span className="relative z-10 font-sans font-bold text-[13px] text-brand-cream uppercase tracking-[0.2em]">В корзину</span>
+                            <span className="relative z-10 text-brand-gold group-hover:text-white transition-colors duration-300">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                              </svg>
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="lg:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-8 bg-white z-10">
+                      <div className="space-y-3">
+                        <span className="text-[10px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">UX Breakdown</span>
+                        <h4 className="text-3xl font-serif font-bold text-brand-ink">Архитектура премиальной карточки</h4>
+                        <p className="text-[15px] leading-relaxed text-brand-ink/70 font-sans">
+                          В премиум-сегменте карточка товара не должна кричать скидками. Она обязана выглядеть как витрина бутика. Мы удаляем визуальный шум и делаем акцент на эстетике продукта.
+                        </p>
+                      </div>
+
+                      <div className="space-y-6">
+                        {[
+                          { title: "Визуальная иерархия", desc: "Строгое разделение: 60% площади отдано визуалу, 40% — информации. Это фокусирует внимание на продукте." },
+                          { title: "Элегантные бейджи", desc: "Метки («Bestseller», скидки) интегрированы аккуратно, используя минималистичную типографику, а не агрессивные красные ярлыки." },
+                          { title: "Контрастный CTA (Call to Action)", desc: "Кнопка «В корзину» — самый темный и массивный элемент интерфейса, контрастирующий с легким фоном. Направление взгляда автоматически ведет к ней." },
+                          { title: "Micro-interactions", desc: "Плавное выравнивание продукта при наведении (hover) создает ощущение тактильности и оживляет интерфейс." },
+                        ].map((feat, idx) => (
+                          <div key={idx} className="flex gap-4 items-start">
+                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-brand-gold/10 text-brand-gold flex items-center justify-center font-bold text-[10px] sm:text-xs">
+                              {idx + 1}
+                            </span>
+                            <div className="space-y-1">
+                              <p className="font-bold text-[14px] text-brand-ink">{feat.title}</p>
+                              <p className="text-[14px] text-brand-ink/60 leading-relaxed max-w-sm">{feat.desc}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Predictive Search Example */}
+                  <div className="mb-16 bg-white border border-brand-gold/15 rounded-[2.5rem] shadow-2xl shadow-brand-gold/5 overflow-hidden flex flex-col lg:flex-row-reverse hover:shadow-brand-gold/10 transition-shadow duration-700">
+                    {/* Search UI Showcase */}
+                    <div className="lg:w-1/2 p-8 sm:p-12 bg-zinc-50 flex items-center justify-center relative overflow-hidden">
+                      <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-gold/5 rounded-full blur-3xl -ml-32 -mb-32"></div>
+
+                      <div className="w-full max-w-md relative z-10 space-y-0">
+                        {/* Search Input */}
+                        <div className="bg-white rounded-t-3xl border border-brand-gold/10 border-b-0 p-5 flex items-center gap-4 shadow-lg shadow-black/5">
+                          <svg className="w-5 h-5 text-brand-gold/60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                          <span className="font-sans text-brand-ink text-[15px]">Пряник императо<span className="animate-pulse">|</span></span>
+                          <span className="ml-auto text-[10px] font-sans text-brand-ink/30 uppercase tracking-widest">Esc</span>
+                        </div>
+
+                        {/* Dropdown Results */}
+                        <div className="bg-white rounded-b-3xl border border-brand-gold/10 border-t border-brand-gold/5 shadow-2xl shadow-black/10 divide-y divide-brand-gold/5">
+                          {[
+                            { name: "Императорский Пряник", cat: "Подарочный набор", price: "€ 145", badge: "Bestseller" },
+                            { name: "Императорское Ассорти", cat: "Праздничная серия", price: "€ 89", badge: null },
+                            { name: "Императорский Мёд", cat: "Мёд и сладости", price: "€ 65", badge: "Новинка" },
+                          ].map((r, i) => (
+                            <div key={i} className={`flex items-center gap-4 p-4 hover:bg-brand-cream/50 transition-colors cursor-pointer ${i === 0 ? "bg-brand-cream/30" : ""}`}>
+                              {/* Mini product thumbnail */}
+                              <div className="w-12 h-12 bg-brand-cream rounded-xl border border-brand-gold/10 flex items-center justify-center shrink-0">
+                                <span className="font-serif text-brand-gold/40 text-sm font-bold">L</span>
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="font-serif font-bold text-[14px] text-brand-ink truncate">{r.name}</p>
+                                <p className="text-[11px] font-sans text-brand-ink/40 uppercase tracking-widest">{r.cat}</p>
+                              </div>
+                              <div className="text-right shrink-0 space-y-1">
+                                <p className="font-sans font-bold text-[14px] text-brand-ink">{r.price}</p>
+                                {r.badge && (
+                                  <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-brand-ink text-brand-cream font-sans">{r.badge}</span>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                          <div className="p-3 text-center">
+                            <span className="text-[11px] font-sans text-brand-gold font-bold uppercase tracking-widest cursor-pointer hover:text-brand-ink transition-colors">Показать все результаты →</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* UX Description */}
+                    <div className="lg:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-8 bg-white z-10">
+                      <div className="space-y-3">
+                        <span className="text-[10px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">UX Breakdown</span>
+                        <h4 className="text-3xl font-serif font-bold text-brand-ink">Predictive Search с превью</h4>
+                        <p className="text-[15px] leading-relaxed text-brand-ink/70 font-sans">
+                          Поиск — главный инструмент конверсии. Мы превращаем обычную строку поиска в мини-витрину: пользователь видит товар, цену и фото ещё до перехода на страницу результатов.
+                        </p>
+                      </div>
+
+                      <div className="space-y-6">
+                        {[
+                          { title: "Мгновенные результаты", desc: "Подсказки появляются после 2-го символа. Задержка ≤ 100ms благодаря Algolia — пользователь не ждёт." },
+                          { title: "Визуальное превью", desc: "Каждый результат содержит миниатюру товара, категорию и цену. Это сокращает путь к покупке на 2-3 клика." },
+                          { title: "Подсветка первого результата", desc: "Лучшее совпадение визуально выделено фоном — пользователь инстинктивно кликает. Это увеличивает CTR поиска на 30%." },
+                          { title: "Интеграция с каталогом", desc: "Бейджи («Bestseller», «Новинка») дублируются из каталога прямо в поиск. Социальное доказательство работает везде." },
+                        ].map((feat, idx) => (
+                          <div key={idx} className="flex gap-4 items-start">
+                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-brand-gold/10 text-brand-gold flex items-center justify-center font-bold text-[10px] sm:text-xs">
+                              {idx + 1}
+                            </span>
+                            <div className="space-y-1">
+                              <p className="font-bold text-[14px] text-brand-ink">{feat.title}</p>
+                              <p className="text-[14px] text-brand-ink/60 leading-relaxed max-w-sm">{feat.desc}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                   <div className="grid sm:grid-cols-2 gap-10">
                     {[
                       {
