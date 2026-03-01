@@ -119,12 +119,23 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const toggleShow = () => {
-      setShowScrollTop(window.scrollY > 300);
+    let scrollTimer: ReturnType<typeof setTimeout>;
+    const handleScroll = () => {
+      // Hide immediately while scrolling
+      setShowScrollTop(false);
+      clearTimeout(scrollTimer);
+      // Show after 500ms of no scrolling (if scrolled past threshold)
+      scrollTimer = setTimeout(() => {
+        if (window.scrollY > 300) {
+          setShowScrollTop(true);
+        }
+      }, 500);
     };
-    window.addEventListener("scroll", toggleShow, { passive: true });
-    toggleShow();
-    return () => window.removeEventListener("scroll", toggleShow);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(scrollTimer);
+    };
   }, []);
 
   const scrollToTop = () => {
@@ -902,17 +913,15 @@ export default function Home() {
           )}
         </button>
 
-        {showScrollTop && (
-          <button
-            type="button"
-            onClick={scrollToTop}
-            className="fixed bottom-6 right-6 flex h-12 w-12 items-center justify-center rounded-full bg-brand-ink text-brand-cream shadow-2xl z-50"
-          >
-            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-            </svg>
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={scrollToTop}
+          className={`fixed bottom-6 right-6 flex h-12 w-12 items-center justify-center rounded-full bg-brand-ink text-brand-cream shadow-2xl z-50 transition-all duration-300 ${showScrollTop ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-75 pointer-events-none'}`}
+        >
+          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+          </svg>
+        </button>
       </div>
     </div>
   );
