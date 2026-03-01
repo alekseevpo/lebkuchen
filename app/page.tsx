@@ -22,6 +22,22 @@ export default function Home() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [cartBounce, setCartBounce] = useState(false);
+  const [checkoutStep, setCheckoutStep] = useState(1);
+  const [searchText, setSearchText] = useState("");
+  const searchFullText = "Пряник императорский";
+
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      setSearchText(searchFullText.slice(0, i));
+      i++;
+      if (i > searchFullText.length) {
+        setTimeout(() => { i = 0; }, 2000);
+      }
+    }, 150);
+    return () => clearInterval(interval);
+  }, []);
+
   const cartRef = useRef<HTMLButtonElement>(null);
   const productImgRef = useRef<HTMLImageElement>(null);
 
@@ -427,7 +443,7 @@ export default function Home() {
                           <svg className="w-5 h-5 text-brand-gold/60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                           </svg>
-                          <span className="font-sans text-brand-ink text-[15px]">Пряник императо<span className="animate-pulse">|</span></span>
+                          <span className="font-sans text-brand-ink text-[15px]">{searchText}<span className="animate-pulse">|</span></span>
                           <span className="ml-auto text-[10px] font-sans text-brand-ink/30 uppercase tracking-widest">Esc</span>
                         </div>
 
@@ -478,6 +494,92 @@ export default function Home() {
                           { title: "Визуальное превью", desc: "Каждый результат содержит миниатюру товара, категорию и цену. Это сокращает путь к покупке на 2-3 клика." },
                           { title: "Подсветка первого результата", desc: "Лучшее совпадение визуально выделено фоном — пользователь инстинктивно кликает. Это увеличивает CTR поиска на 30%." },
                           { title: "Интеграция с каталогом", desc: "Бейджи («Bestseller», «Новинка») дублируются из каталога прямо в поиск. Социальное доказательство работает везде." },
+                        ].map((feat, idx) => (
+                          <div key={idx} className="flex gap-4 items-start">
+                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-brand-gold/10 text-brand-gold flex items-center justify-center font-bold text-[10px] sm:text-xs">
+                              {idx + 1}
+                            </span>
+                            <div className="space-y-1">
+                              <p className="font-bold text-[14px] text-brand-ink">{feat.title}</p>
+                              <p className="text-[14px] text-brand-ink/60 leading-relaxed max-w-sm">{feat.desc}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Progressive Checkout Example */}
+                  <div className="mb-8 sm:mb-16 bg-white border border-brand-gold/15 rounded-2xl sm:rounded-[2.5rem] shadow-2xl shadow-brand-gold/5 overflow-hidden flex flex-col lg:flex-row hover:shadow-brand-gold/10 transition-shadow duration-700">
+                    {/* Checkout UI Showcase */}
+                    <div className="lg:w-1/2 p-4 sm:p-12 bg-zinc-50 flex items-center justify-center relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-64 h-64 bg-brand-gold/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+
+                      <div className="w-full max-w-sm relative z-10 space-y-4">
+                        {[
+                          { id: 1, title: "1. Адрес доставки", summary: "Мадрид, Calle del Escano 36", icon: "📍" },
+                          { id: 2, title: "2. Способ доставки", summary: "Курьерская (1-2 дня)", icon: "🚚" },
+                          { id: 3, title: "3. Оплата", summary: "Apple Pay / Картой", icon: "💳" }
+                        ].map((s) => (
+                          <div
+                            key={s.id}
+                            onClick={() => setCheckoutStep(s.id)}
+                            className={classNames(
+                              "p-5 rounded-2xl border transition-all duration-500 cursor-pointer",
+                              checkoutStep === s.id
+                                ? "bg-white border-brand-gold shadow-lg ring-1 ring-brand-gold/20"
+                                : "bg-white/40 border-brand-gold/10 grayscale-[0.5] opacity-60"
+                            )}
+                          >
+                            <div className="flex items-center justify-between gap-4">
+                              <div className="flex items-center gap-3">
+                                <span className="text-xl">{s.icon}</span>
+                                <div className="space-y-0.5">
+                                  <p className="font-serif font-bold text-[14px] text-brand-ink">{s.title}</p>
+                                  {checkoutStep >= s.id && (
+                                    <p className="text-[11px] font-sans text-brand-ink/40 uppercase tracking-widest">{s.summary}</p>
+                                  )}
+                                </div>
+                              </div>
+                              {checkoutStep > s.id && (
+                                <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
+                                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+                                  </svg>
+                                </div>
+                              )}
+                            </div>
+                            {checkoutStep === s.id && s.id < 3 && (
+                              <div className="mt-4 pt-4 border-t border-brand-gold/10 animate-in fade-in slide-in-from-top-2 duration-500">
+                                <button
+                                  onClick={(e) => { e.stopPropagation(); setCheckoutStep(s.id + 1); }}
+                                  className="w-full py-2.5 bg-brand-ink text-brand-cream rounded-xl text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-brand-gold transition-colors"
+                                >
+                                  Далее →
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* UX Description */}
+                    <div className="lg:w-1/2 p-5 sm:p-12 lg:p-16 flex flex-col justify-center space-y-6 sm:space-y-8 bg-white z-10">
+                      <div className="space-y-3">
+                        <span className="text-[10px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">UX Breakdown</span>
+                        <h4 className="text-2xl sm:text-3xl font-serif font-bold text-brand-ink">Прогрессивный Checkout</h4>
+                        <p className="text-[15px] leading-relaxed text-brand-ink/70 font-sans">
+                          Мы не перегружаем клиента формой из 20 полей. Каждый следующий шаг открывается только после завершения предыдущего, сохраняя фокус и снижая процент брошенных корзин.
+                        </p>
+                      </div>
+
+                      <div className="space-y-6">
+                        {[
+                          { title: "Туннельное зрение", desc: "Внимание пользователя сфокусировано только на одном активном шаге. Остальные блоки свернуты или показывают только краткую суть." },
+                          { title: "Сохранение успеха", desc: "Галочки и краткие сводки по завершенным шагам создают у клиента «эффект прогресса», который психологически мешает бросать покупку." },
+                          { title: "Zero Noise Design", desc: "Удалены все лишние ссылки, меню и баннеры. На странице чекаута существует только один путь — вперед к оплате." },
+                          { title: "Мгновенная валидация", desc: "Ошибки подсвечиваются в реальном времени, не давая нажать кнопку «Далее», пока данные не введены корректно." },
                         ].map((feat, idx) => (
                           <div key={idx} className="flex gap-4 items-start">
                             <span className="flex-shrink-0 w-6 h-6 rounded-full bg-brand-gold/10 text-brand-gold flex items-center justify-center font-bold text-[10px] sm:text-xs">
