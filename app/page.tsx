@@ -9,6 +9,10 @@ function classNames(...parts: Array<string | false | null | undefined>) {
 }
 
 export default function Home() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [loginStr, setLoginStr] = useState("");
+  const [passStr, setPassStr] = useState("");
+  const [authError, setAuthError] = useState("");
   const [tab, setTab] = useState<TabKey>("strategy");
   const [comments, setComments] = useState<Array<{ id: string; text: string; date: string; author: string }>>(() => {
     const saved = typeof window !== "undefined" ? localStorage.getItem("spec-comments") : null;
@@ -18,8 +22,28 @@ export default function Home() {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (sessionStorage.getItem("site-auth") === "true") {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem("spec-comments", JSON.stringify(comments));
   }, [comments]);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (loginStr === "lebkuchen" && passStr === "premium") {
+      setIsAuthenticated(true);
+      sessionStorage.setItem("site-auth", "true");
+    } else {
+      setAuthError("Неверный логин или пароль");
+    }
+  };
 
   const addComment = (text: string) => {
     if (!text.trim()) return;
@@ -49,6 +73,46 @@ export default function Home() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  if (isAuthenticated === null) return null;
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-zinc-50 text-brand-ink p-4">
+        <form onSubmit={handleLogin} className="w-full max-w-sm bg-white p-8 rounded-3xl shadow-xl border border-brand-gold/20 space-y-6 animate-in fade-in zoom-in duration-500">
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl font-serif font-bold text-brand-ink uppercase">Private Access</h2>
+            <p className="text-sm font-sans text-brand-ink/60">Введите данные для входа</p>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <input
+                type="text"
+                placeholder="Логин"
+                value={loginStr}
+                onChange={(e) => setLoginStr(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-brand-gold/20 text-sm font-sans focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all"
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                placeholder="Пароль"
+                value={passStr}
+                onChange={(e) => setPassStr(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-brand-gold/20 text-sm font-sans focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all"
+              />
+            </div>
+            {authError && <p className="text-xs text-brand-error font-sans text-center font-bold">{authError}</p>}
+          </div>
+          <button type="submit" className="w-full bg-brand-ink text-brand-cream py-3 rounded-xl text-sm font-bold font-sans hover:bg-brand-ink/90 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+            Войти
+          </button>
+        </form>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50 text-zinc-900">
       <div className="mx-auto w-full max-w-4xl px-4 py-6 sm:py-10 sm:px-6 flex-1">
@@ -400,13 +464,82 @@ export default function Home() {
                 </section>
 
                 <section className="pt-16 border-t border-brand-gold/10">
-                  <div className="bg-brand-cream rounded-[3rem] p-8 sm:p-12 border border-brand-gold/20 space-y-12">
-                    <div className="text-center space-y-4">
-                      <div className="flex justify-center">
-                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-gold text-brand-cream text-[10px] font-serif font-bold">04</span>
-                      </div>
-                      <h3 className="text-3xl font-serif font-bold text-brand-ink">Бюджет и сроки реализации</h3>
-                      <p className="text-base text-brand-ink/50 font-serif uppercase tracking-[0.2em]">€ 29 040 · 22 недели</p>
+                  <div className="flex items-center gap-4 mb-10">
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-ink text-brand-cream text-[10px] font-serif font-bold">04</span>
+                    <h3 className="text-xl font-serif font-bold text-brand-ink uppercase tracking-tight">Бюджет, сроки и команда</h3>
+                  </div>
+
+                  <div className="bg-brand-ink rounded-[2.5rem] p-8 sm:p-12 text-brand-cream space-y-12 shadow-2xl relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-brand-gold/10 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-brand-gold/20 transition-all duration-1000"></div>
+
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 relative">
+                      {[
+                        { label: "Общий бюджет", val: "€ 29 040" },
+                        { label: "Сроки проекта", val: "22 недели" },
+                        { label: "Трудозатраты", val: "1320 часов" },
+                        { label: "Команда", val: "3 специалиста" },
+                      ].map((stat, idx) => (
+                        <div key={idx} className="space-y-2">
+                          <span className="block text-[10px] text-brand-gold uppercase tracking-widest font-sans">{stat.label}</span>
+                          <span className="block text-2xl font-serif font-bold">{stat.val}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="grid lg:grid-cols-3 gap-6 relative">
+                      {[
+                        {
+                          role: "Разработчик 1 (Frontend)",
+                          hours: "512ч",
+                          price: "€ 11 264",
+                          tasks: [
+                            "Next.js, UI, Design System",
+                            "Анимации, Карточки, Поиск",
+                            "B2B Dashboard, Quick Order",
+                            "Мультиязычность, i18n UX"
+                          ]
+                        },
+                        {
+                          role: "Разработчик 2 (Backend)",
+                          hours: "512ч",
+                          price: "€ 11 264",
+                          tasks: [
+                            "NestJS API, Sanity CMS",
+                            "Checkout API, Algolia",
+                            "B2B API, PDF Инвойсы",
+                            "Интеграции, деплой"
+                          ]
+                        },
+                        {
+                          role: "UI/UX Дизайнер",
+                          hours: "296ч",
+                          price: "€ 6 512",
+                          tasks: [
+                            "Figma Kit, Design Tokens",
+                            "Motion-design, Checkout UI",
+                            "B2B Dashboard дизайн",
+                            "Locale banner, Email"
+                          ]
+                        }
+                      ].map((member, idx) => (
+                        <div key={idx} className="bg-white/5 border border-white/10 rounded-3xl p-6 space-y-6 hover:bg-white/10 transition-colors">
+                          <div className="space-y-1 border-b border-white/10 pb-4">
+                            <h4 className="font-serif font-bold text-lg text-brand-gold">{member.role}</h4>
+                            <div className="flex gap-4 text-[11px] font-sans tracking-widest uppercase opacity-70">
+                              <span>{member.hours}</span>
+                              <span>{member.price}</span>
+                            </div>
+                          </div>
+                          <ul className="space-y-3">
+                            {member.tasks.map((task, tIdx) => (
+                              <li key={tIdx} className="text-sm font-sans flex items-start gap-3 opacity-80">
+                                <span className="w-1.5 h-1.5 rounded-full bg-brand-gold mt-1.5 shrink-0"></span>
+                                {task}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </section>
@@ -485,6 +618,23 @@ export default function Home() {
               <span className="block text-[11px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">Status</span>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-[10px] font-bold text-emerald-600 border border-emerald-100 uppercase font-sans">
                 Draft Reviewed
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-8 border-t border-brand-gold/10 text-xs text-brand-ink/50 font-sans space-y-4">
+            <div className="flex flex-col md:flex-row justify-between gap-8 md:gap-4">
+              <div className="space-y-3 max-w-2xl text-justify sm:text-left">
+                <p className="font-bold text-brand-ink/70">ПРАВОВОЕ УВЕДОМЛЕНИЕ</p>
+                <p>Настоящий документ является интеллектуальной собственностью автора и охраняется законодательством ЕС. Использование материалов, архитектурных решений и дизайн-спецификаций в коммерческих целях возможно только с письменного согласия автора.</p>
+                <p>Охраняется в соответствии с: Директива ЕС 2001/29/EC (InfoSoc) · Регламент ЕС 2016/679 (GDPR) · Директива ЕС 2016/943 (Trade Secrets) · Бернская конвенция (WIPO).</p>
+                <p>Документ является исключительно техническим предложением и не порождает юридических обязательств на оказание услуг без подписания отдельного договора.</p>
+              </div>
+              <div className="space-y-3 md:text-right">
+                <p>© 2026 Алексеев Павел Олегович / Селенит</p>
+                <p>Все права защищены в ЕС и международно.</p>
+                <p>Madrid, Getafe, Calle del Escano 36</p>
+                <p>Споры — в судах компетентной юрисдикции Мадрида, Испания.</p>
               </div>
             </div>
           </div>
