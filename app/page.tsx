@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useEffect, useRef, useCallback } from "react";
 
-type TabKey = "strategy" | "spec";
+type TabKey = "strategy" | "spec" | "constructor";
 
 function classNames(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
@@ -23,7 +23,21 @@ export default function Home() {
   const [cartCount, setCartCount] = useState(0);
   const [cartBounce, setCartBounce] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState(1);
+  const [constructorStep, setConstructorStep] = useState(1);
+  const [selectedBox, setSelectedBox] = useState<string | null>(null);
+  const [selectedDecor, setSelectedDecor] = useState<string[]>([]);
+  const [cardText, setCardText] = useState("");
   const [searchText, setSearchText] = useState("");
+  const constructorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (tab === 'constructor' && constructorRef.current) {
+      const element = constructorRef.current;
+      const yOffset = -20;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }, [constructorStep]);
   const searchFullText = "Пряник императорский";
 
   useEffect(() => {
@@ -235,6 +249,18 @@ export default function Home() {
             >
               Тех. задание
             </button>
+            <button
+              type="button"
+              onClick={() => setTab("constructor")}
+              className={classNames(
+                "pb-4 text-[11px] sm:text-[12px] font-bold uppercase tracking-[0.15em] transition font-sans border-b-2 relative top-[2px]",
+                tab === "constructor"
+                  ? "border-brand-ink text-brand-ink"
+                  : "border-transparent text-brand-ink/40 hover:text-brand-ink/70 hover:border-brand-gold/30"
+              )}
+            >
+              Конструктор подарка
+            </button>
           </div>
 
           <div className="p-3 sm:p-10 lg:p-14">
@@ -291,12 +317,6 @@ export default function Home() {
 
             {tab === "spec" && (
               <div className="space-y-16 animate-in fade-in duration-700">
-                {/* Spec content already exists in the file, but I'll make sure it's closed correctly */}
-                {/* Note: I'm not re-pasting the whole Spec content here to avoid token limit, 
-                    I'm assuming the existing code from line 186 to 484 is mostly okay 
-                    BUT line 52 to 601 was what I was fixing. 
-                    Actually, it's safer to provide the WHOLE return block if it fits, or fix the beginning and end.
-                */}
                 <header className="space-y-8">
                   <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 border-b border-brand-gold/20 pb-6 sm:pb-8">
                     <div className="space-y-2">
@@ -317,8 +337,6 @@ export default function Home() {
                     </div>
                   </div>
                 </header>
-
-                {/* Adding the rest of Spec and Footer here to ensure structure is 100% correct */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                   {[
                     { label: "Языков платформы", val: "6", sub: "EN · DE · FR · ES · IT · RU" },
@@ -393,7 +411,7 @@ export default function Home() {
                             <span className="relative z-10 font-sans font-bold text-[13px] text-brand-cream uppercase tracking-[0.2em]">В корзину</span>
                             <span className="relative z-10 text-brand-gold group-hover:text-white transition-colors duration-300">
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                               </svg>
                             </span>
                           </button>
@@ -441,7 +459,7 @@ export default function Home() {
                         {/* Search Input */}
                         <div className="bg-white rounded-t-2xl sm:rounded-t-3xl border border-brand-gold/10 border-b-0 p-3 sm:p-5 flex items-center gap-3 sm:gap-4 shadow-lg shadow-black/5">
                           <svg className="w-5 h-5 text-brand-gold/60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                           </svg>
                           <span className="font-sans text-brand-ink text-[15px]">{searchText}<span className="animate-pulse">|</span></span>
                           <span className="ml-auto text-[10px] font-sans text-brand-ink/30 uppercase tracking-widest">Esc</span>
@@ -533,7 +551,23 @@ export default function Home() {
                           >
                             <div className="flex items-center justify-between gap-4">
                               <div className="flex items-center gap-3">
-                                <span className="text-xl">{s.icon}</span>
+                                <span className="w-10 h-10 flex items-center justify-center shrink-0 rounded-xl bg-brand-gold/10 group-hover:bg-brand-gold/20 transition-colors">
+                                  {s.id === 1 && (
+                                    <svg className="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                  )}
+                                  {s.id === 2 && (
+                                    <svg className="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+                                    </svg>
+                                  )}
+                                  {s.id === 3 && (
+                                    <svg className="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                    </svg>
+                                  )}
+                                </span>
                                 <div className="space-y-0.5">
                                   <p className="font-serif font-bold text-[14px] text-brand-ink">{s.title}</p>
                                   {checkoutStep >= s.id && (
@@ -601,47 +635,73 @@ export default function Home() {
                         priority: "Высокий приоритет",
                         why: "Обеспечивает мгновенную визуальную обратную связь. Мозг пользователя получает подтверждение действия без ожидания. Реализуется через анимацию «лёта» товара в корзину и side-in панель (drawer).",
                         gives: "+12-18% Add-to-Cart rate — Baymard Institute",
-                        icon: "🛍️"
+                        icon: (
+                          <svg className="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                          </svg>
+                        )
                       },
                       {
                         title: "Predictive Search с превью",
                         priority: "Высокий приоритет",
                         why: "Сокращает путь к товару. В поиске сразу отображаются карточки с фото, актуальными ценами и кнопками «В корзину», а не просто текстовый список.",
                         gives: "+22% поисковых конверсий",
-                        icon: "🔍"
+                        icon: (
+                          <svg className="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                        )
                       },
                       {
                         title: "Прогрессивный Checkout",
                         priority: "Высокий приоритет",
                         why: "Снижает когнитивную нагрузку. Одностраничный интерфейс «аккордеон» (адрес → доставка → оплата), где каждый шаг раскрывается после подтверждения предыдущего.",
                         gives: "-28% отказов на checkout",
-                        icon: "⚡"
+                        icon: (
+                          <svg className="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>
+                        )
                       },
                       {
                         title: "Wishlist «Gift Hint»",
                         priority: "Средний приоритет",
                         why: "Позволяет делиться списками желаний через публичные ссылки («намекни на подарок»). Создает виральный эффект для сегмента подарков.",
                         gives: "Уникальная USP для gift-рынка",
-                        icon: "💝"
+                        icon: (
+                          <svg className="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                          </svg>
+                        )
                       },
                       {
                         title: "Smart Occasion Filter",
                         priority: "Средний приоритет",
                         why: "Фильтрация по поводу: День рождения, Свадьба, Корпоратив, Новый год. Визуальные иконки вместо выпадающих списков — выбор в один клик.",
                         gives: "+15% глубина просмотра каталога",
-                        icon: "🎯"
+                        icon: (
+                          <svg className="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        )
                       },
                       {
                         title: "Delivery Date Picker",
                         priority: "Средний приоритет",
                         why: "Пользователь должен видеть дату доставки ДО оформления заказа. Отображение «Доставим к [дате]» прямо в карточке товара и корзине.",
                         gives: "+9% конверсия корзины",
-                        icon: "🚚"
+                        icon: (
+                          <svg className="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        )
                       }
                     ].map((item, i) => (
                       <div key={i} className="p-5 sm:p-8 bg-white border border-brand-gold/10 rounded-xl sm:rounded-[2rem] space-y-4 sm:space-y-6 hover:shadow-xl hover:border-brand-gold/30 transition-all duration-500 group">
                         <div className="flex items-start justify-between">
-                          <span className="text-2xl">{item.icon}</span>
+                          <span className="w-10 h-10 flex items-center justify-center rounded-xl bg-brand-gold/10 shrink-0">
+                            {item.icon}
+                          </span>
                           <span className="text-[11px] font-bold text-brand-error uppercase tracking-widest px-3 py-1 bg-brand-error/5 rounded-full ring-1 ring-brand-error/10">
                             {item.priority}
                           </span>
@@ -956,6 +1016,267 @@ export default function Home() {
                 </section>
               </div>
             )}
+
+            {tab === "constructor" && (
+              <div className="space-y-12 animate-in fade-in duration-700">
+                <section className="space-y-10 sm:space-y-16">
+                  {/* Title Section */}
+                  <div className="max-w-3xl space-y-4">
+                    <span className="text-[10px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">Premium Service Concept</span>
+                    <h2 className="text-3xl sm:text-5xl font-serif font-bold text-brand-ink leading-tight">Собрать свой набор</h2>
+                    <p className="text-[17px] leading-relaxed text-brand-ink/70 font-sans">
+                      В Европе клиент покупает не «набор деталей», а готовую услугу профессионального подарка. Мы заменяем логику «сложи в коробку сам» на интерактивный сервис персонализации.
+                    </p>
+                  </div>
+
+                  {/* Constructor UI Showcase */}
+                  <div ref={constructorRef} className="bg-zinc-50 border border-brand-gold/15 rounded-2xl sm:rounded-[3rem] overflow-hidden flex flex-col lg:flex-row shadow-2xl shadow-brand-gold/5">
+                    {/* Interactive Area */}
+                    <div className="lg:w-3/5 p-4 sm:p-12 border-b lg:border-b-0 lg:border-r border-brand-gold/10 relative overflow-hidden">
+                      <div className="absolute top-0 left-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl -ml-48 -mt-48"></div>
+
+                      <div className="relative z-10 space-y-8">
+                        {/* Step Indicators */}
+                        <div className="flex items-center gap-2 sm:gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                          {[
+                            {
+                              id: 1, label: "Упаковка", icon: (
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                </svg>
+                              )
+                            },
+                            {
+                              id: 2, label: "Наполнение", icon: (
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4v16m8-8H4" />
+                                </svg>
+                              )
+                            },
+                            {
+                              id: 3, label: "Декор", icon: (
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                              )
+                            },
+                          ].map((s) => (
+                            <button
+                              key={s.id}
+                              onClick={() => setConstructorStep(s.id)}
+                              className={classNames(
+                                "flex items-center gap-2 px-4 py-2 rounded-full border transition-all shrink-0 whitespace-nowrap text-[11px] font-bold uppercase tracking-widest",
+                                constructorStep === s.id
+                                  ? "bg-brand-ink text-brand-cream border-brand-ink shadow-lg"
+                                  : "bg-white border-brand-gold/20 text-brand-ink/40 hover:border-brand-gold"
+                              )}
+                            >
+                              {s.icon}
+                              {s.label}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Step Content */}
+                        <div className="min-h-[400px] animate-in fade-in slide-in-from-bottom-4 duration-500">
+                          {constructorStep === 1 && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                              {[
+                                { id: "wood", name: "Premium Oak Box", price: "+ € 25", color: "bg-[#4a3728]" },
+                                { id: "card", name: "Gold Embossed Cardboard", price: "+ € 15", color: "bg-brand-ink" },
+                                { id: "linen", name: "Natural Linen Sack", price: "+ € 10", color: "bg-[#d2b48c]" },
+                              ].map((b) => (
+                                <div
+                                  key={b.id}
+                                  onClick={() => setSelectedBox(b.id)}
+                                  className={classNames(
+                                    "relative p-6 rounded-3xl border-2 transition-all cursor-pointer group",
+                                    selectedBox === b.id ? "border-brand-gold bg-brand-gold/5 shadow-xl" : "border-brand-gold/10 bg-white hover:border-brand-gold/30"
+                                  )}
+                                >
+                                  <div className={classNames("w-full h-32 rounded-2xl mb-4 transition-transform group-hover:scale-[1.02]", b.color)}></div>
+                                  <div className="space-y-1">
+                                    <p className="font-serif font-bold text-brand-ink leading-tight">{b.name}</p>
+                                    <p className="text-[10px] font-sans text-brand-gold uppercase tracking-widest">{b.price}</p>
+                                  </div>
+                                  <div className={classNames("absolute bottom-6 right-6 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all", selectedBox === b.id ? "border-brand-gold bg-brand-gold scale-110 shadow-lg" : "border-brand-gold/20")}>
+                                    {selectedBox === b.id && <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {constructorStep === 2 && (
+                            <div className="space-y-6">
+                              <p className="text-xs uppercase tracking-widest font-bold text-brand-ink/40">Выберите наполнение (до 4-х предметов):</p>
+                              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                {[
+                                  {
+                                    name: "Императорский Пряник",
+                                    price: "€ 14",
+                                    icon: (
+                                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="9" strokeWidth="1.5" />
+                                        <path strokeLinecap="round" strokeWidth="1.5" d="M9 10a1 1 0 100-2 1 1 0 000 2zm6 0a1 1 0 100-2 1 1 0 000 2zM9 15c1 1 5 1 6 0" />
+                                      </svg>
+                                    )
+                                  },
+                                  {
+                                    name: "Горный Мёд (250г)",
+                                    price: "€ 18",
+                                    icon: (
+                                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11l-1.37-1.37A2 2 0 0016.21 9H7.79a2 2 0 00-1.42.59L5 11M3 11v1a5 5 0 005 5h8a5 5 0 005-5v-1M12 3v6" />
+                                      </svg>
+                                    )
+                                  },
+                                  {
+                                    name: "Чайная смесь N°5",
+                                    price: "€ 12",
+                                    icon: (
+                                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M18 8h2a2 2 0 012 2v2a2 2 0 01-2 2h-2M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 5h4v3H6V5z" />
+                                      </svg>
+                                    )
+                                  },
+                                  {
+                                    name: "Пряник Ассорти",
+                                    price: "€ 9",
+                                    icon: (
+                                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeWidth="1.5" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z" />
+                                      </svg>
+                                    )
+                                  },
+                                  {
+                                    name: "Свеча ручной работы",
+                                    price: "€ 22",
+                                    icon: (
+                                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 7v14M9 21h6M12 7c.6 0 1-.4 1-1V3c0-.6-.4-1-1-1s-1 .4-1 1v3c0 .6.4 1 1 1z" />
+                                      </svg>
+                                    )
+                                  },
+                                ].map((item, i) => (
+                                  <div key={i} className="relative bg-white p-4 sm:p-5 rounded-3xl border border-brand-gold/10 hover:border-brand-gold/30 transition-all cursor-pointer shadow-sm hover:shadow-md group h-full flex flex-col">
+                                    <div className="w-10 h-10 rounded-xl bg-brand-gold/5 text-brand-gold flex items-center justify-center mb-3">
+                                      {item.icon}
+                                    </div>
+                                    <p className="text-[13px] font-bold text-brand-ink leading-tight mb-2 pr-6">{item.name}</p>
+                                    <div className="mt-auto">
+                                      <span className="text-[10px] text-brand-gold font-sans font-bold uppercase tracking-wider">{item.price}</span>
+                                    </div>
+                                    <button className="absolute bottom-4 right-4 w-6 h-6 rounded-full bg-brand-ink text-brand-cream flex items-center justify-center text-lg hover:bg-brand-gold hover:scale-110 active:scale-90 transition-all shadow-md group-hover:shadow-lg">
+                                      <span className="mb-0.5">+</span>
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {constructorStep === 3 && (
+                            <>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {[
+                                  { id: "silk", name: "Шелковая лента (Gold)", desc: "Профессиональная завязка «Двойной узел»", color: "bg-brand-gold" },
+                                  { id: "jute", name: "Джутовый шпагат", desc: "Минимализм и экологичность", color: "bg-[#a68d71]" },
+                                  { id: "card", name: "Персонализированная открытка", desc: "Печать вашего текста вручную", color: "bg-brand-cream" },
+                                ].map((d) => (
+                                  <div
+                                    key={d.id}
+                                    onClick={() => {
+                                      setSelectedDecor(prev =>
+                                        prev.includes(d.id)
+                                          ? prev.filter(id => id !== d.id)
+                                          : [...prev, d.id]
+                                      );
+                                    }}
+                                    className={classNames(
+                                      "relative p-6 rounded-3xl border-2 transition-all cursor-pointer group flex items-start gap-4 h-full",
+                                      selectedDecor.includes(d.id) ? "border-brand-gold bg-brand-gold/5 shadow-xl" : "border-brand-gold/10 bg-white hover:border-brand-gold/30"
+                                    )}
+                                  >
+                                    <div className={classNames("w-12 h-12 rounded-xl shrink-0 border border-black/5", d.color)}></div>
+                                    <div className="space-y-1">
+                                      <p className="font-serif font-bold text-brand-ink leading-tight pr-6">{d.name}</p>
+                                      <p className="text-[12px] text-brand-ink/50 font-sans leading-tight pr-6">{d.desc}</p>
+                                    </div>
+                                    <div className={classNames("absolute bottom-6 right-6 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all", selectedDecor.includes(d.id) ? "border-brand-gold bg-brand-gold scale-110 shadow-lg" : "border-brand-gold/20")}>
+                                      {selectedDecor.includes(d.id) && <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+
+                              {selectedDecor.includes("card") && (
+                                <div className="mt-8 p-6 rounded-3xl bg-brand-gold/5 border border-brand-gold/20 animate-in fade-in slide-in-from-top-4 duration-500">
+                                  <p className="text-[11px] font-bold text-brand-gold uppercase tracking-[0.2em] mb-4 font-sans">Текст для вашей открытки</p>
+                                  <textarea
+                                    value={cardText}
+                                    onChange={(e) => setCardText(e.target.value)}
+                                    className="w-full h-32 p-5 rounded-2xl bg-white/50 border border-brand-gold/10 focus:border-brand-gold outline-none text-brand-ink font-sans text-[15px] transition-all resize-none placeholder:text-brand-ink/30 shadow-inner"
+                                    placeholder="Напишите здесь ваше пожелание..."
+                                  />
+                                </div>
+                              )}
+                            </>
+                          )}
+                        </div>
+
+                        {/* Navigation Footer */}
+                        <div className="flex items-center justify-between pt-8 border-t border-brand-gold/10">
+                          <button
+                            disabled={constructorStep === 1}
+                            onClick={() => setConstructorStep(prev => prev - 1)}
+                            className="text-[11px] font-bold uppercase tracking-widest text-brand-ink/40 hover:text-brand-ink disabled:opacity-0 transition-all font-sans"
+                          >
+                            ← Назад
+                          </button>
+                          <button
+                            onClick={() => constructorStep < 3 ? setConstructorStep(prev => prev + 1) : null}
+                            className="px-8 py-3 bg-brand-ink text-brand-cream rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-brand-gold hover:shadow-xl transition-all font-sans"
+                          >
+                            {constructorStep === 3 ? "Добавить в корзину" : "Продолжить →"}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Description Area */}
+                    <div className="lg:w-2/5 p-6 sm:p-12 lg:p-14 bg-white flex flex-col justify-center space-y-10">
+                      <div className="space-y-4">
+                        <span className="text-[10px] font-bold text-brand-gold uppercase tracking-[0.3em] font-sans">UX Value</span>
+                        <h4 className="text-2xl sm:text-3xl font-serif font-bold text-brand-ink leading-tight">От продажи товара к продаже услуги</h4>
+                        <p className="text-[15px] leading-relaxed text-brand-ink/70 font-sans">
+                          Для премиального сегмента важно ощущение заботы. Мы не просто продаем пряники, а предлагаем решение задачи «идеальный подарок».
+                        </p>
+                      </div>
+
+                      <div className="space-y-8">
+                        {[
+                          { title: "Тактильность выбора", desc: "Визуализация материалов упаковки (дерево vs картон) создает почти физическое ощущение качества ещё до покупки." },
+                          { title: "Персонализация", desc: "Раздел «Декор» позволяет клиенту вложить душу в набор, не выходя из дома. Ручная работа ценится выше всего." },
+                          { title: "Service-First Logic", desc: "Вместо сухого каталога — путешествие. Система сама подсказывает гармоничные сочетания продуктов и лент." },
+                          { title: "Готовое решение", desc: "Финальное превью показывает набор в сборе — клиент уверен, что подарок приедет в идеальном виде." },
+                        ].map((f, i) => (
+                          <div key={i} className="flex gap-4 items-start">
+                            <span className="flex-shrink-0 w-6 h-6 rounded-full bg-brand-gold/10 text-brand-gold flex items-center justify-center font-bold text-[10px] sm:text-xs">
+                              {i + 1}
+                            </span>
+                            <div className="space-y-1">
+                              <p className="font-bold text-[14px] text-brand-ink">{f.title}</p>
+                              <p className="text-[13px] text-brand-ink/60 leading-relaxed">{f.desc}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            )}
           </div>
         </div>
 
@@ -1005,7 +1326,7 @@ export default function Home() {
           type="button"
           className="fixed top-4 right-4 sm:top-6 sm:right-6 flex items-center gap-2 px-4 py-3 rounded-2xl bg-white/30 backdrop-blur-xl border border-white/40 shadow-lg shadow-black/5 z-50 group hover:bg-white/50 hover:shadow-xl hover:scale-105 transition-all duration-300"
         >
-          <svg className="w-5 h-5 text-brand-ink/80 group-hover:text-brand-ink transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 text-brand-ink/80 group-hover:text-brand-ink transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
           </svg>
           {cartCount > 0 && (
@@ -1021,7 +1342,7 @@ export default function Home() {
           className={`fixed bottom-6 right-6 flex h-12 w-12 items-center justify-center rounded-full bg-brand-ink text-brand-cream shadow-2xl z-50 transition-all duration-300 ${showScrollTop ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-75 pointer-events-none'}`}
         >
           <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M5 10l7-7m0 0l7 7m-7-7v18" />
           </svg>
         </button>
       </div>
