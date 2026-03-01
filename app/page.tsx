@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef, useCallback } from "react";
 
 type TabKey = "strategy" | "spec";
 
@@ -20,6 +20,63 @@ export default function Home() {
   });
 
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+  const [cartBounce, setCartBounce] = useState(false);
+  const cartRef = useRef<HTMLButtonElement>(null);
+  const productImgRef = useRef<HTMLImageElement>(null);
+
+  const flyToCart = useCallback(() => {
+    const img = productImgRef.current;
+    const cart = cartRef.current;
+    if (!img || !cart) return;
+
+    const imgRect = img.getBoundingClientRect();
+    const cartRect = cart.getBoundingClientRect();
+
+    // Create flying clone
+    const clone = document.createElement('div');
+    clone.style.cssText = `
+      position: fixed;
+      z-index: 9999;
+      width: 80px;
+      height: 80px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      left: ${imgRect.left + imgRect.width / 2 - 40}px;
+      top: ${imgRect.top + imgRect.height / 2 - 40}px;
+      transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+      pointer-events: none;
+      opacity: 1;
+      transform: scale(1);
+    `;
+    const cloneImg = document.createElement('img');
+    cloneImg.src = '/pryanik.webp';
+    cloneImg.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+    clone.appendChild(cloneImg);
+    document.body.appendChild(clone);
+
+    // Trigger animation on next frame
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        clone.style.left = `${cartRect.left + cartRect.width / 2 - 15}px`;
+        clone.style.top = `${cartRect.top + cartRect.height / 2 - 15}px`;
+        clone.style.width = '30px';
+        clone.style.height = '30px';
+        clone.style.opacity = '0.6';
+        clone.style.transform = 'scale(0.3)';
+        clone.style.borderRadius = '50%';
+      });
+    });
+
+    // Cleanup and update cart
+    setTimeout(() => {
+      clone.remove();
+      setCartCount(prev => prev + 1);
+      setCartBounce(true);
+      setTimeout(() => setCartBounce(false), 400);
+    }, 850);
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -267,12 +324,12 @@ export default function Home() {
                           <div className="absolute top-4 left-4 z-10">
                             <span className="px-3 py-1 bg-brand-ink text-brand-cream text-[10px] font-bold uppercase tracking-widest rounded-full font-sans shadow-sm">Bestseller</span>
                           </div>
-                          {/* Minimalist illustration of a box */}
-                          <div className="w-32 h-32 bg-white/60 border border-brand-gold/30 rounded-xl shadow-sm rotate-3 group-hover:rotate-0 transition-transform duration-500 flex items-center justify-center relative">
-                            <div className="absolute top-1/2 left-0 right-0 h-px bg-brand-gold/20 -translate-y-1/2"></div>
-                            <div className="absolute top-0 bottom-0 left-1/2 w-px bg-brand-gold/20 -translate-x-1/2"></div>
-                            <span className="font-serif text-brand-gold text-2xl font-bold opacity-50">L</span>
-                          </div>
+                          <img
+                            ref={productImgRef}
+                            src="/pryanik.webp"
+                            alt="Императорский Пряник"
+                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                          />
                         </div>
 
                         {/* Content Area */}
@@ -296,7 +353,7 @@ export default function Home() {
                             </div>
                           </div>
 
-                          <button className="w-full relative group overflow-hidden py-4 rounded-2xl shadow-lg shadow-brand-gold/20 flex items-center justify-center gap-3 transition-all duration-500">
+                          <button onClick={flyToCart} className="w-full relative group overflow-hidden py-4 rounded-2xl shadow-lg shadow-brand-gold/20 flex items-center justify-center gap-3 transition-all duration-500">
                             {/* Animated Background */}
                             <div className="absolute inset-0 bg-gradient-to-r from-brand-ink via-brand-ink to-brand-gold/90 transition-transform duration-500 group-hover:scale-x-110 origin-left"></div>
 
@@ -828,6 +885,22 @@ export default function Home() {
             </div>
           </div>
         </footer>
+
+        {/* Floating Glass Cart Button */}
+        <button
+          ref={cartRef}
+          type="button"
+          className="fixed top-4 right-4 sm:top-6 sm:right-6 flex items-center gap-2 px-4 py-3 rounded-2xl bg-white/30 backdrop-blur-xl border border-white/40 shadow-lg shadow-black/5 z-50 group hover:bg-white/50 hover:shadow-xl hover:scale-105 transition-all duration-300"
+        >
+          <svg className="w-5 h-5 text-brand-ink/80 group-hover:text-brand-ink transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          {cartCount > 0 && (
+            <span className={`relative flex items-center justify-center w-5 h-5 rounded-full bg-brand-gold text-white text-[10px] font-bold font-sans shadow-sm transition-transform duration-300 ${cartBounce ? 'scale-150' : 'scale-100'}`}>
+              {cartCount}
+            </span>
+          )}
+        </button>
 
         {showScrollTop && (
           <button
